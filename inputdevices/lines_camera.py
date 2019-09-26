@@ -3,20 +3,17 @@ from engineering import surround_eng
 
 import numpy as np
 import cv2
-import ASUS.GPIO as gpio
 
 
 class LinesCamera:
 
     def __init__(self):
+        # Initialize video capture from port 0 w/ file path
         self.cap = cv2.VideoCapture('/dev/v4l/by-path/platform-ff540000.usb-usb-0:1.4:1.0-video-index0')
         self.process_this_frame = False
         self.LED = 164
 
     def watch(self):
-
-        self.initialize_gpio()
-        gpio.output(self.LED, gpio.LOW)
 
         while True:
 
@@ -47,11 +44,6 @@ class LinesCamera:
                 break
         cv2.destroyAllWindows()
         self.cap.release()
-
-    def initialize_gpio(self):
-        gpio.setwarnings(False)
-        gpio.setmode(gpio.ASUS)
-        gpio.setup(self.LED, gpio.OUT)
 
 
 if __name__ == '__main__':
