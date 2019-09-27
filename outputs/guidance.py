@@ -28,9 +28,7 @@ class Guidance:
 
     def control_steering(self, steering_input):
         self.steering.ChangeDutyCycle(steering_input)
-        time.sleep(5)
-        self.steering.stop()
-        gpio.cleanup()
+        time.sleep(1)
 
     def control_speed(self, speed_input):
         # Control motor speed from duty cycle (map 2.5 to 12.5)
@@ -52,7 +50,7 @@ class Guidance:
 
         # Outputs controls
         self.steering = gpio.PWM(self.steering_pin, self.hz)
-        self.steering.start(2.5)  # Start servo at 0 degrees
+        self.steering.start(0)  # Start servo at 0 degrees
 
         self.speed = gpio.PWM(self.speed_pin, self.hz)
         self.speed.start(0)  # Initialize with 0 speed

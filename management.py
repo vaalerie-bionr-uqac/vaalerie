@@ -9,18 +9,25 @@ project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
 from communication.publisher import Publisher
+# from engineering.motion_eng import MotionEngineer
+from engineering.surround_eng import SurroundEng
 
 
 class Management:
 
-    # Create new publisher instance
-    publisher = Publisher()
+    def __init__(self):
+        # Create new publisher instance
+        self.publisher = Publisher()
+        # Create new motion engineer instance !!!! ALERT - MUST BE CREATED !!!!
+        # motion_eng = MotionEngineer()
+        # Create new surroundings engineer instance
+        self.surr_eng = SurroundEng()
 
-    def do_stuff(self):
-        self.publisher.general_publish(12.5)
+    def send_data_to_publisher(self):
+        self.publisher.general_publication(0)
 
 
 # Initializing sequence code
 if __name__ == '__main__':
     manager = Management()
-    manager.do_stuff()
+    manager.send_data_to_publisher()

@@ -20,7 +20,6 @@ class LinesCamera:
         # Initialize video capture from port 0 w/ file path
         self.cap = cv2.VideoCapture('/dev/v4l/by-path/platform-ff540000.usb-usb-0:1.4:1.0-video-index0')
         self.process_this_frame = False
-        self.LED = 164
 
     def watch(self):
 

@@ -8,10 +8,10 @@ created on thrusday September 26 2019
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
-from outputdevices import display, guidance
+from outputs import display, guidance
 
-from outputdevices.guidance import Guidance
-from outputdevices.display import Display
+from outputs.guidance import Guidance
+from outputs.display import Display
 
 
 class Publisher:
@@ -19,8 +19,8 @@ class Publisher:
     guidance = Guidance(11, 33, 32, 50)
     display = Display()
 
-    def general_publish(self, steering_input):
+    def general_publication(self, steering_input):
         self.guidance.control_steering(steering_input)
-        self.guidance.brake_is_on(True)
+        self.guidance.brake_is_on(False)
         self.display.emotion_factor = 0
         # Publishing values to Bluetooth

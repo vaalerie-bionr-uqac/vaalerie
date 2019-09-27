@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9b2092f9-5664-433d-9387-1ddb23cc12bd" name="Default Changelist" comment="">
+    <list default="true" id="9b2092f9-5664-433d-9387-1ddb23cc12bd" name="Default Changelist" comment="Project import: testing servo control with PWM. Link created between management/publisher/guidance. Program must now be initialized from management (previously gestion_core)">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/communication/publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/communication/publisher.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/engineering/motion_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/engineering/motion_eng.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gestion_core.py" beforeDir="false" afterPath="$PROJECT_DIR$/management.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputdevices/lines_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputdevices/lines_camera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputdevices/guidance.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputdevices/guidance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engineering/surround_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/engineering/surround_eng.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputdevices/athlete_cameras.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/athlete_cameras.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputdevices/lidar.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/lidar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputdevices/lines_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/lines_camera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputdevices/safety.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/safety.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputdevices/surround_sensor.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/surround_sensor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/management.py" beforeDir="false" afterPath="$PROJECT_DIR$/management.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputdevices/audio.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/audio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputdevices/bluetooth.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/bluetooth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputdevices/display.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/display.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputdevices/guidance.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/guidance.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -155,7 +164,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569529122084</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Project import: testing servo control with PWM. Link created between management/publisher/guidance. Program must now be initialized from management (previously gestion_core)">
+      <created>1569587666718</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1569587666719</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -173,6 +189,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project import v0.0.1 --all files imported" />
-    <option name="LAST_COMMIT_MESSAGE" value="Project import v0.0.1 --all files imported" />
+    <MESSAGE value="Project import: testing servo control with PWM. Link created between management/publisher/guidance. Program must now be initialized from management (previously gestion_core)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Project import: testing servo control with PWM. Link created between management/publisher/guidance. Program must now be initialized from management (previously gestion_core)" />
   </component>
 </project>

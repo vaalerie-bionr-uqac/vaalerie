@@ -2,6 +2,7 @@
   <dictionary name="beginw">
     <words>
       <w>gpio</w>
+      <w>surr</w>
       <w>tinkerboard</w>
     </words>
   </dictionary>
