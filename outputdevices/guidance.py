@@ -1,5 +1,15 @@
+"""
+created on thrusday September 26 2019
+
+@author: William Begin <william.begin2@uqac.ca>
+    M. Sc. (C) Sciences cliniques et biomediacles, UQAC
+    Office: H2-1180
+
+project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
+"""
 
 import ASUS.GPIO as gpio
+import time
 
 
 class Guidance:
@@ -7,18 +17,20 @@ class Guidance:
     steering = 0
     speed = 0
 
-    def __init__(self):
+    def __init__(self, rear_light_pin, steering_pin, speed_pin, hz):
         # 26 is IN
-        self.rear_light_pin = 11
-        self.steering_pin = 13
-        self.speed_pin = 15
-        self.hz = 250
+        self.rear_light_pin = rear_light_pin
+        self.steering_pin = steering_pin
+        self.speed_pin = speed_pin
+        self.hz = hz
 
         self.initialize_gpio()
 
     def control_steering(self, steering_input):
-        # Rotate servo to position required from -12.5 to 12.5 (map 180 = 12.5 & 0 = 2.5)
         self.steering.ChangeDutyCycle(steering_input)
+        time.sleep(5)
+        self.steering.stop()
+        gpio.cleanup()
 
     def control_speed(self, speed_input):
         # Control motor speed from duty cycle (map 2.5 to 12.5)
@@ -43,4 +55,4 @@ class Guidance:
         self.steering.start(2.5)  # Start servo at 0 degrees
 
         self.speed = gpio.PWM(self.speed_pin, self.hz)
-        self.speed.start(2.5)  # Initialize with 0 speed
+        self.speed.start(0)  # Initialize with 0 speed

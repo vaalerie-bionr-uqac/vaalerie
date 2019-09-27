@@ -1,3 +1,12 @@
+"""
+created on thrusday September 26 2019
+
+@author: William Begin <william.begin2@uqac.ca>
+    M. Sc. (C) Sciences cliniques et biomediacles, UQAC
+    Office: H2-1180
+
+project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
+"""
 
 from engineering import surround_eng
 
