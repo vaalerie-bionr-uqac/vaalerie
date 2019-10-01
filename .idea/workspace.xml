@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9b2092f9-5664-433d-9387-1ddb23cc12bd" name="Default Changelist" comment="Project import: testing servo control with PWM. Link created between management/publisher/guidance. Program must now be initialized from management (previously gestion_core)">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" afterDir="false" />
+    <list default="true" id="9b2092f9-5664-433d-9387-1ddb23cc12bd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/communication/publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/communication/publisher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/engineering/motion_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/engineering/motion_eng.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/engineering/surround_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/engineering/surround_eng.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputdevices/athlete_cameras.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/athlete_cameras.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputdevices/lidar.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/lidar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputdevices/lines_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/lines_camera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputdevices/safety.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/safety.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputdevices/surround_sensor.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/surround_sensor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/lines_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/lines_camera.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/management.py" beforeDir="false" afterPath="$PROJECT_DIR$/management.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputdevices/audio.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/audio.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputdevices/bluetooth.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/bluetooth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputdevices/display.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/display.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputdevices/guidance.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/guidance.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +26,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/PycharmProjects/vaalerieproject" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/inputs/lines_camera.py" />
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.file-colors" />
   </component>
   <component name="RunDashboard">
@@ -53,7 +41,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.management">
+  <component name="RunManager" selected="Python.lines_camera">
     <configuration name="lines_camera" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="vaalerie" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -62,11 +50,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/inputdevices" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/inputs" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/inputdevices/lines_camera.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/inputs/lines_camera.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -117,10 +105,15 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.lines_camera" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.management" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.management" />
         <item itemvalue="Python.lines_camera" />
+        <item itemvalue="Python.management" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -171,7 +164,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569587666719</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Project import: testing servo control with PWM. Link created between management/publisher/guidance. Program must now be initialized from management (previously gestion_core)">
+      <created>1569597672320</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1569597672320</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

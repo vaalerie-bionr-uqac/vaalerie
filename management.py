@@ -24,6 +24,8 @@ class Management:
         self.surr_eng = SurroundEng()
 
     def send_data_to_publisher(self):
+        # Push data to publisher
+        # Data will be computed from this object after getting data from engineers
         self.publisher.general_publication(0)
 
 

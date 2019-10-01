@@ -1,5 +1,5 @@
 """
-created on thrusday September 26 2019
+created on thursday September 26 2019
 
 @author: William Begin <william.begin2@uqac.ca>
     M. Sc. (C) Sciences cliniques et biomediacles, UQAC
@@ -23,7 +23,9 @@ class LinesCamera:
 
     def watch(self):
 
-        while True:
+        i = 0
+
+        while i < 2:
 
             # Only process every other frame of video to save time
             if self.process_this_frame:
@@ -45,8 +47,12 @@ class LinesCamera:
                 # Show image
                 cv2.imshow('Potato', edges_frame)
 
+                np.savetxt('Edges_matrix.txt', edges_frame, delimiter=',', fmt='%d')
+
             # 1 frame every 2 frame condition
             self.process_this_frame = not self.process_this_frame
+
+            i = i + 1
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
