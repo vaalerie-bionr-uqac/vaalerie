@@ -25,6 +25,7 @@
   <component name="ProjectId" id="1RKpDK3CmEu5jK1zn9iF9U4fWgP" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/inputs/lines_camera.py" />
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.file-colors" />
@@ -171,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569597672320</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Project import: testing servo control with PWM. Link created between management/publisher/guidance. Program must now be initialized from management (previously gestion_core)">
+      <created>1569944724581</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1569944724581</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
