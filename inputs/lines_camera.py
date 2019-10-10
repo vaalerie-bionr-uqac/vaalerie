@@ -73,23 +73,24 @@ class LinesCamera:
         edges_frame = cv2.Canny(gray_frame, 100, 100)
 
         # Find lines
-        # lines_frame = cv2.HoughLinesP(gray_frame, 1, np.pi / 180, 200)
+        filtered_frame = self.find_lines(edges_frame)
+        lines_frame = cv2.HoughLinesP(filtered_frame, 1, np.pi / 180, 200)
 
-        # for line in lines_frame:
-        # x1, y1, x2, y2 = line[0]
-        # cv2.line(edges_frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
-        # Show image
-        # cv2.imshow('Potato', edges_frame)
+        #for line in lines_frame:
+         #   x1, y1, x2, y2 = line[0]
+          #  cv2.line(edges_frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
+            # Show image
+           # cv2.imshow('Potato', small_frame)
 
         # self.find_lines(edges_frame)
 
-        np.savetxt('Curved_lines_matrix.txt', edges_frame, delimiter=' ', fmt='%d')
-        np.savetxt('Cleaned_lines_matrix.txt', self.find_lines(edges_frame), delimiter=' ', fmt='%d')
+        #np.savetxt('Curved_lines_matrix.txt', edges_frame, delimiter=' ', fmt='%d')
+        #np.savetxt('Cleaned_lines_matrix.txt', self.find_lines(edges_frame), delimiter=' ', fmt='%d')
 
         # cv2.destroyAllWindows()
         self.cap.release()
 
-    def find_lines(self, edges_frame, threshold=10, tolerance=5):
+    def find_lines(self, edges_frame, threshold=40, tolerance=2):
         # Evaluate image in segments
         eval_frames = np.hsplit(edges_frame, (len(edges_frame[0])) / threshold)
 
@@ -109,7 +110,6 @@ class LinesCamera:
                 for column in range(0, len(f[row])):
                     # General matrix column position from relative f column position
                     general_column = column + (threshold * i)
-                    # print(row_sum[row], column_sum[column])
                     # Vertical Linear score approximation
                     if row_sum[row] != 0:
                         # Vertical linearity score calculation
@@ -120,7 +120,7 @@ class LinesCamera:
                     if edges_frame[row][general_column] < tolerance:
                         edges_frame[row][general_column] = 0
                     else:
-                        edges_frame[row][general_column] = 1
+                        edges_frame[row][general_column] = 255
 
             del row_sum[:]
             del column_sum[:]
