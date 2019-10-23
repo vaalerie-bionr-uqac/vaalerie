@@ -29,6 +29,11 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/inputs/lines_camera.py" />
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.file-colors" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/inputs" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -178,7 +183,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569944724581</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Project import: testing servo control with PWM. Link created between management/publisher/guidance. Program must now be initialized from management (previously gestion_core)">
+      <created>1570727651460</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1570727651461</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

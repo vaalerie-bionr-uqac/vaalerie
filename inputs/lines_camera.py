@@ -14,6 +14,7 @@ import sys
 import numpy as np
 import cv2
 import time
+import datetime
 
 np.set_printoptions(threshold=sys.maxsize)
 
@@ -33,101 +34,112 @@ class LinesCamera:
             if self.process_this_frame:
                 # _____________
                 ret, frame = self.cap.read()
+                frame = frame[160:]
                 # Resize frame to 1/4
                 small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
                 # Color correction
                 gray_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2GRAY)
                 # contours
                 edges_frame = cv2.Canny(gray_frame, 100, 100)
-
                 # Find lines
-                lines_frame = cv2.HoughLinesP(gray_frame, 1, np.pi / 180, 200)
+                lines_frame = cv2.HoughLinesP(edges_frame, 1, np.pi / 180, 10, None, 20, 160)
 
-                # for line in lines_frame:
-                # x1, y1, x2, y2 = line[0]
-                # cv2.line(edges_frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
+                if lines_frame is not None:
+                    for i in range(0, len(lines_frame)):
+                        l = lines_frame[i][0]
+                        cv2.line(small_frame, (l[0], l[1]), (l[2], l[3]), (0, 255, 0), 3)
+
                 # Show image
-                cv2.imshow('Potato', edges_frame)
-
-                # self.find_lines(edges_frame)
-
-                # np.savetxt('Straight_lines_matrix.txt', edges_frame, delimiter=',', fmt='%d')
+                cv2.imshow('FWAME', small_frame)
 
             # 1 frame every 2 frame condition
             self.process_this_frame = not self.process_this_frame
-
+            # Kill switch
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
+
         cv2.destroyAllWindows()
         self.cap.release()
 
     def watch(self):
-        time.sleep(2)
         # _____________
-        ret, frame = self.cap.read()
+        #ret, frame1 = self.cap.read()
+        #cv2.imwrite('piste_1.jpg', frame1)
+        f = cv2.imread('piste_1.jpg')
+        frame = f[160:]
         # Resize frame to 1/4
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
         # Color correction
         gray_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2GRAY)
-        # contours
+        # Contours
         edges_frame = cv2.Canny(gray_frame, 100, 100)
-
         # Find lines
-        filtered_frame = self.find_lines(edges_frame)
-        lines_frame = cv2.HoughLinesP(filtered_frame, 1, np.pi / 180, 200)
+        lines_frame = cv2.HoughLinesP(edges_frame, 1, np.pi/180, 10, None, 20, 160)
 
-        #for line in lines_frame:
-         #   x1, y1, x2, y2 = line[0]
-          #  cv2.line(edges_frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
-            # Show image
-           # cv2.imshow('Potato', small_frame)
+        if lines_frame is not None:
+            for i in range(0, len(lines_frame)):
+                l = lines_frame[i][0]
+                # x1, y1, x2, y2 = line[0]
+                # cv2.line(f, (x1, y1), (x2, y2), (0, 255, 0), 3)
+                # Show image
 
-        # self.find_lines(edges_frame)
+        # gray_frame[40:]
+        # cv2.imwrite('houghlines3.jpg', f)
 
-        #np.savetxt('Curved_lines_matrix.txt', edges_frame, delimiter=' ', fmt='%d')
-        #np.savetxt('Cleaned_lines_matrix.txt', self.find_lines(edges_frame), delimiter=' ', fmt='%d')
+        # np.savetxt('Curved_lines_matrix.txt', edges_frame, delimiter=' ', fmt='%d')
+        # np.savetxt('Cleaned_lines_matrix.txt', filtered_frame, delimiter=' ', fmt='%d')
 
         # cv2.destroyAllWindows()
         self.cap.release()
 
-    def find_lines(self, edges_frame, threshold=40, tolerance=2):
+    def find_lines(self, edges_frame, threshold=40, tolerance=2, cut=40):
+        # Resize frame to desired value (horizontal cut)
+        cut_frame = edges_frame[cut:]
         # Evaluate image in segments
-        eval_frames = np.hsplit(edges_frame, (len(edges_frame[0])) / threshold)
+        eval_frames = np.hsplit(edges_frame, (len(cut_frame[0])) / threshold)
 
         row_sum = []
         column_sum = []
 
         i = -1
+        past = datetime.datetime.now()
         for f in eval_frames:
             i += 1
-            for row in f:
-                row_sum.append(float(np.sum(row) / 255))
-            for column in f.T:
-                column_sum.append(float(np.sum(column) / 255))
+            correction = threshold * i
+            # 1D rows and columns sum arrays
+            for rows in f:
+                row_sum.append(np.sum(rows))
+            for columns in f.T:
+                column_sum.append(np.sum(columns))
 
             # Scanning for lines
-            for row in range(0, len(f)):
+            for row in range(cut, len(f)):
                 for column in range(0, len(f[row])):
                     # General matrix column position from relative f column position
-                    general_column = column + (threshold * i)
-                    # Vertical Linear score approximation
-                    if row_sum[row] != 0:
-                        # Vertical linearity score calculation
-                        edges_frame[row][general_column] = f[row][column] / 255 * column_sum[column] / row_sum[row]
+                    general_column = column + correction
+                    # is linear
+                    if row_sum[row] != 0 and (f[row][column] / 255 * column_sum[column] / row_sum[row]) > tolerance:
+                        cut_frame[row-cut][general_column] = 255
+                    # is not
                     else:
-                        edges_frame[row][general_column] = 0
-                    # Remove values out of estimated tolerance value
-                    if edges_frame[row][general_column] < tolerance:
-                        edges_frame[row][general_column] = 0
-                    else:
-                        edges_frame[row][general_column] = 255
+                        cut_frame[row-cut][general_column] = 0
 
             del row_sum[:]
             del column_sum[:]
+        print(datetime.datetime.now() - past)
+        return cut_frame
 
-        return edges_frame
+
+"""class Line(np.array):
+
+    li = np.array()
+    mean = 0
+
+    def mod_mean(self, value):
+        mean = self.mean * len(self.li) + value"""
+
 
 
 if __name__ == '__main__':
     line = LinesCamera()
-    line.watch()
+    line.continuous_watch()
