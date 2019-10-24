@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9b2092f9-5664-433d-9387-1ddb23cc12bd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inputs/lines_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/lines_camera.py" afterDir="false" />
     </list>
@@ -190,7 +191,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570727651461</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Project import: line reading code correction. Now uses HoughLineP from OpenCV. Watch() and continuous_watch() updated. Obtained lines must still be cleaned with matrix operation (vertical only).">
+      <created>1571863469106</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1571863469106</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -209,6 +217,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project import v0.0.1 --all files imported" />
     <MESSAGE value="Project import: testing servo control with PWM. Link created between management/publisher/guidance. Program must now be initialized from management (previously gestion_core)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Project import: testing servo control with PWM. Link created between management/publisher/guidance. Program must now be initialized from management (previously gestion_core)" />
+    <MESSAGE value="Project import: line reading code correction. Now uses HoughLineP from OpenCV. Watch() and continuous_watch() updated. Obtained lines must still be cleaned with matrix operation (vertical only)." />
+    <option name="LAST_COMMIT_MESSAGE" value="Project import: line reading code correction. Now uses HoughLineP from OpenCV. Watch() and continuous_watch() updated. Obtained lines must still be cleaned with matrix operation (vertical only)." />
   </component>
 </project>

@@ -13,7 +13,6 @@ from engineering import surround_eng
 import sys
 import numpy as np
 import cv2
-import time
 import datetime
 
 np.set_printoptions(threshold=sys.maxsize)
@@ -27,30 +26,17 @@ class LinesCamera:
         self.process_this_frame = False
 
     def continuous_watch(self):
-
         while True:
-
             # Only process every other frame of video to save time
             if self.process_this_frame:
-                # _____________
+                # Get image from USB webcam
                 ret, frame = self.cap.read()
-                frame = frame[160:]
-                # Resize frame to 1/4
-                small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-                # Color correction
-                gray_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2GRAY)
-                # contours
-                edges_frame = cv2.Canny(gray_frame, 100, 100)
                 # Find lines
-                lines_frame = cv2.HoughLinesP(edges_frame, 1, np.pi / 180, 10, None, 20, 160)
-
-                if lines_frame is not None:
-                    for i in range(0, len(lines_frame)):
-                        l = lines_frame[i][0]
-                        cv2.line(small_frame, (l[0], l[1]), (l[2], l[3]), (0, 255, 0), 3)
-
+                final_frame = self.get_lines_frame(frame)
+                # Enlarge image
+                final_frame = cv2.resize(final_frame, (0, 0), fx=4, fy=4)
                 # Show image
-                cv2.imshow('FWAME', small_frame)
+                cv2.imshow('FWAME', final_frame)
 
             # 1 frame every 2 frame condition
             self.process_this_frame = not self.process_this_frame
@@ -62,11 +48,20 @@ class LinesCamera:
         self.cap.release()
 
     def watch(self):
-        # _____________
-        #ret, frame1 = self.cap.read()
-        #cv2.imwrite('piste_1.jpg', frame1)
-        f = cv2.imread('piste_1.jpg')
-        frame = f[160:]
+        # Get image from USB webcam
+        frame = cv2.imread('piste_3.jpg')  # ret, frame = self.cap.read()
+        # Find lines
+        final_frame = self.get_lines_frame(frame)
+        # Resize image
+        final_frame = cv2.resize(final_frame, (0, 0), fx=4, fy=4)
+        # Show image
+        cv2.imwrite('houghlines3.jpg', final_frame)
+        # Camera capture release
+        # self.cap.release()
+
+    def get_lines_frame(self, frame):
+        # Cut received frame
+        frame = frame[230:-80]
         # Resize frame to 1/4
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
         # Color correction
@@ -74,25 +69,22 @@ class LinesCamera:
         # Contours
         edges_frame = cv2.Canny(gray_frame, 100, 100)
         # Find lines
-        lines_frame = cv2.HoughLinesP(edges_frame, 1, np.pi/180, 10, None, 20, 160)
+        lines_frame = cv2.HoughLinesP(edges_frame, 1, np.pi / 180, 15, None, 10, 160)
+        # Add lines to image frame
+        final_frame = self.add_lines(lines_frame, small_frame)
 
+        return final_frame
+
+    def add_lines(self, lines_frame, small_frame):
         if lines_frame is not None:
+            lines_frame = self.sort_lines(lines_frame)
             for i in range(0, len(lines_frame)):
                 l = lines_frame[i][0]
-                # x1, y1, x2, y2 = line[0]
-                # cv2.line(f, (x1, y1), (x2, y2), (0, 255, 0), 3)
-                # Show image
+                cv2.line(small_frame, (l[0], l[1]), (l[2], l[3]), (0, 255, 0), 1)
 
-        # gray_frame[40:]
-        # cv2.imwrite('houghlines3.jpg', f)
+        return small_frame
 
-        # np.savetxt('Curved_lines_matrix.txt', edges_frame, delimiter=' ', fmt='%d')
-        # np.savetxt('Cleaned_lines_matrix.txt', filtered_frame, delimiter=' ', fmt='%d')
-
-        # cv2.destroyAllWindows()
-        self.cap.release()
-
-    def find_lines(self, edges_frame, threshold=40, tolerance=2, cut=40):
+    def find_lines(self, edges_frame, threshold=40, tolerance=2, cut=0):
         # Resize frame to desired value (horizontal cut)
         cut_frame = edges_frame[cut:]
         # Evaluate image in segments
@@ -129,15 +121,28 @@ class LinesCamera:
         print(datetime.datetime.now() - past)
         return cut_frame
 
+    def sort_lines(self, lines_frame, threshold=5, slope=0.1):
+        # Remove horizontal lines
+        i = 0
+        while i < len(lines_frame):
+            x1, y1, x2, y2 = lines_frame[i][0]
+            # Is horizontal
+            if np.abs((y2 - y1)/(x2 - x1)) < slope:
+                lines_frame = np.delete(lines_frame, i, 0)
+            else:
+                i += 1
 
-"""class Line(np.array):
+        # Remove repetitions
+        i, j = 0, 1
+        while i < len(lines_frame):
+            while j < len(lines_frame):
+                if np.abs(np.mean(lines_frame[i][0] - lines_frame[j][0])) < threshold:
+                    lines_frame = np.delete(lines_frame, j, 0)
+                else:
+                    j += 1
+            i += 1
 
-    li = np.array()
-    mean = 0
-
-    def mod_mean(self, value):
-        mean = self.mean * len(self.li) + value"""
-
+        return lines_frame
 
 
 if __name__ == '__main__':

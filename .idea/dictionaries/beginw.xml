@@ -4,6 +4,7 @@
       <w>gpio</w>
       <w>surr</w>
       <w>tinkerboard</w>
+      <w>webcam</w>
     </words>
   </dictionary>
 </component>
