@@ -8,12 +8,15 @@ created on thursday September 26 2019
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
+
 from engineering import surround_eng
 
 import sys
 import numpy as np
 import cv2
 import datetime
+import ctypes
+from ctypes import *
 
 np.set_printoptions(threshold=sys.maxsize)
 
@@ -49,7 +52,7 @@ class LinesCamera:
 
     def watch(self):
         # Get image from USB webcam
-        frame = cv2.imread('piste_3.jpg')  # ret, frame = self.cap.read()
+        frame = cv2.imread('piste_7.jpg')  # ret, frame = self.cap.read()
         # Find lines
         final_frame = self.get_lines_frame(frame)
         # Resize image
@@ -61,13 +64,29 @@ class LinesCamera:
 
     def get_lines_frame(self, frame):
         # Cut received frame
-        frame = frame[230:-80]
+        frame = frame[80:-230]
         # Resize frame to 1/4
-        small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+        small_frame_inverted = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+        # Flip frame
+        small_frame = cv2.flip(small_frame_inverted, -1)
         # Color correction
         gray_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2GRAY)
         # Contours
         edges_frame = cv2.Canny(gray_frame, 100, 100)
+
+        # Call C++ code
+        t = datetime.datetime.now()
+        adder = CDLL('./adder.so')
+        data = edges_frame
+        c_int_p = ctypes.POINTER(ctypes.c_int)
+        data = data.astype(np.int)
+        ftl = data.ctypes.data_as(c_int_p)
+        addr = adder.calculateur(edges_frame.shape[0], edges_frame.shape[1], ftl)
+        ptr = ctypes.cast(addr, c_int_p)
+        tab = np.ctypeslib.as_array(ptr, (edges_frame.shape[0], edges_frame.shape[1]))
+        np.savetxt('result_matrix.txt', tab, fmt='%.18g', delimiter=' ')
+        print(datetime.datetime.now() - t)
+
         # Find lines
         lines_frame = cv2.HoughLinesP(edges_frame, 1, np.pi / 180, 15, None, 10, 160)
         # Add lines to image frame
@@ -127,7 +146,8 @@ class LinesCamera:
         while i < len(lines_frame):
             x1, y1, x2, y2 = lines_frame[i][0]
             # Is horizontal
-            if np.abs((y2 - y1)/(x2 - x1)) < slope:
+            delta_x = x2 - x1
+            if delta_x != 0 and np.abs((y2 - y1)/delta_x) < slope:
                 lines_frame = np.delete(lines_frame, i, 0)
             else:
                 i += 1
@@ -147,4 +167,4 @@ class LinesCamera:
 
 if __name__ == '__main__':
     line = LinesCamera()
-    line.continuous_watch()
+    line.watch()
