@@ -1,9 +1,13 @@
 <component name="ProjectDictionaryState">
   <dictionary name="beginw">
     <words>
+      <w>boundscheck</w>
+      <w>dtype</w>
       <w>gpio</w>
+      <w>hsplit</w>
       <w>surr</w>
       <w>tinkerboard</w>
+      <w>uintc</w>
       <w>webcam</w>
     </words>
   </dictionary>

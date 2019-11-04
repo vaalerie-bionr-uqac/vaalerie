@@ -7,10 +7,11 @@ created on thursday September 26 2019
 
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
-
+from weakref import finalize
 
 from engineering import surround_eng
 
+import track_line_filter as tlf
 import sys
 import numpy as np
 import cv2
@@ -52,7 +53,7 @@ class LinesCamera:
 
     def watch(self):
         # Get image from USB webcam
-        frame = cv2.imread('piste_7.jpg')  # ret, frame = self.cap.read()
+        frame = cv2.imread('piste_5.jpg')  # ret, frame = self.cap.read()
         # Find lines
         final_frame = self.get_lines_frame(frame)
         # Resize image
@@ -64,18 +65,22 @@ class LinesCamera:
 
     def get_lines_frame(self, frame):
         # Cut received frame
-        frame = frame[80:-230]
+        frame = frame[160:-240]
         # Resize frame to 1/4
-        small_frame_inverted = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+        small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
         # Flip frame
-        small_frame = cv2.flip(small_frame_inverted, -1)
+        # small_frame = cv2.flip(small_frame_inverted, -1)
         # Color correction
         gray_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2GRAY)
         # Contours
         edges_frame = cv2.Canny(gray_frame, 100, 100)
 
+
         # Call C++ code
-        t = datetime.datetime.now()
+        filtered_frame = np.asarray(tlf.find_lines(edges_frame, 4, 0.6, 0))
+        np.savetxt('result_matrix.txt', filtered_frame, fmt='%.18g', delimiter=' ')
+
+        """t = datetime.datetime.now()
         adder = CDLL('./adder.so')
         data = edges_frame
         c_int_p = ctypes.POINTER(ctypes.c_int)
@@ -85,12 +90,15 @@ class LinesCamera:
         ptr = ctypes.cast(addr, c_int_p)
         tab = np.ctypeslib.as_array(ptr, (edges_frame.shape[0], edges_frame.shape[1]))
         np.savetxt('result_matrix.txt', tab, fmt='%.18g', delimiter=' ')
-        print(datetime.datetime.now() - t)
+        print(datetime.datetime.now() - t)"""
 
         # Find lines
-        lines_frame = cv2.HoughLinesP(edges_frame, 1, np.pi / 180, 15, None, 10, 160)
+        lines = cv2.HoughLinesP(filtered_frame, 1, np.pi / 180, 15, None, 10, 160)
         # Add lines to image frame
-        final_frame = self.add_lines(lines_frame, small_frame)
+        final_frame = self.add_lines(lines, small_frame)
+
+        cv2.imwrite('fwame.jpg', final_frame)
+
 
         return final_frame
 
