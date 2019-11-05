@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9b2092f9-5664-433d-9387-1ddb23cc12bd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/inputs/setup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inputs/track_line_filter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inputs/track_line_filter.pyx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vaalerie.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vaalerie.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/lines_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/lines_camera.py" afterDir="false" />
-    </list>
+    <list default="true" id="9b2092f9-5664-433d-9387-1ddb23cc12bd" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +249,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572295852028</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Project import: Modification for connection between Python3.7 and C for lines filtering. Functionnal code.">
+      <created>1572903550455</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1572903550455</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -279,6 +278,7 @@
     <MESSAGE value="Project import: line reading code correction. Now uses HoughLineP from OpenCV. Watch() and continuous_watch() updated. Obtained lines must still be cleaned with matrix operation (vertical only)." />
     <MESSAGE value="Project import: Line reading code correction. Now uses HoughLineP from OpenCV. Watch() and continuous_watch() updated. Line repetition analysis now supported. Lines are not sent to surr. Eng. as of right now." />
     <MESSAGE value="Project import: Temporary modification for connection between Python3.7 and C++ for lines filtering time saving (Code is running but not as expected)." />
-    <option name="LAST_COMMIT_MESSAGE" value="Project import: Temporary modification for connection between Python3.7 and C++ for lines filtering time saving (Code is running but not as expected)." />
+    <MESSAGE value="Project import: Modification for connection between Python3.7 and C for lines filtering. Functionnal code." />
+    <option name="LAST_COMMIT_MESSAGE" value="Project import: Modification for connection between Python3.7 and C for lines filtering. Functionnal code." />
   </component>
 </project>
