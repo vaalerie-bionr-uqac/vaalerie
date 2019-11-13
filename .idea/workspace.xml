@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9b2092f9-5664-433d-9387-1ddb23cc12bd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/communication/publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/communication/publisher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/engineering/motion_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/engineering/motion_eng.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/engineering/surround_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/engineering/surround_eng.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/adder.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/lines_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/lines_camera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/surround_sensor.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/surround_sensor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/track_line_filter.cpython-37m-arm-linux-gnueabihf.so" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/track_line_filter.cpython-37m-arm-linux-gnueabihf.so" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/track_line_filter.pyx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/track_line_filter.pyx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/management.py" beforeDir="false" afterPath="$PROJECT_DIR$/controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputs/guidance.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/guidance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controller.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -300,7 +288,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572968359433</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Project import: &#10;Motion eng - Controller name modif.&#10;Surround eng - Data request from input devices added.&#10;Lines camera - Now returns filtered lines corresponding to borders.&#10;Guidance - Added steering control. Code is functionnal with good mapping.&#10;Controller : Modif. name from management. Added links to Engineers and __main__">
+      <created>1573682021213</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1573682021214</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -324,6 +319,7 @@
     <MESSAGE value="Project import: Temporary modification for connection between Python3.7 and C++ for lines filtering time saving (Code is running but not as expected)." />
     <MESSAGE value="Project import: Modification for connection between Python3.7 and C for lines filtering. Functionnal code." />
     <MESSAGE value="Project import: Track line filter C library code import as .so file. Must be compiled from track_line_filter.pyx (Cython code) with Cython compiler." />
-    <option name="LAST_COMMIT_MESSAGE" value="Project import: Track line filter C library code import as .so file. Must be compiled from track_line_filter.pyx (Cython code) with Cython compiler." />
+    <MESSAGE value="Project import: &#10;Motion eng - Controller name modif.&#10;Surround eng - Data request from input devices added.&#10;Lines camera - Now returns filtered lines corresponding to borders.&#10;Guidance - Added steering control. Code is functionnal with good mapping.&#10;Controller : Modif. name from management. Added links to Engineers and __main__" />
+    <option name="LAST_COMMIT_MESSAGE" value="Project import: &#10;Motion eng - Controller name modif.&#10;Surround eng - Data request from input devices added.&#10;Lines camera - Now returns filtered lines corresponding to borders.&#10;Guidance - Added steering control. Code is functionnal with good mapping.&#10;Controller : Modif. name from management. Added links to Engineers and __main__" />
   </component>
 </project>

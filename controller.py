@@ -36,7 +36,7 @@ class Controller:
             self.collect_surr_data()
             self.send_data_to_publisher()
 
-            
+
 
     def send_data_to_publisher(self):
         # Push data to publisher
