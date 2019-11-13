@@ -1,10 +1,10 @@
 #cython: language_level=3
+#cython.boundscheck(False)
 
 import numpy as np
 cimport numpy as np
 
 
-#cython.boundscheck(False)
 cpdef unsigned char[:,:] find_lines(unsigned char[:,:] edges_frame, int threshold, float tolerance, int cut):
     # Resize frame to desired value (horizontal cut)
     cdef unsigned char[:,:] cut_frame = edges_frame[cut:]
@@ -21,6 +21,7 @@ cpdef unsigned char[:,:] find_lines(unsigned char[:,:] edges_frame, int threshol
 
     # Split image
     eval_frames = np.hsplit(cut_frame, (x_size/threshold))
+
     # Declare C variables type
     cdef unsigned char[:,:] f = np.zeros((threshold, y_size), dtype=np.ubyte)
 
@@ -31,6 +32,8 @@ cpdef unsigned char[:,:] find_lines(unsigned char[:,:] edges_frame, int threshol
     cdef unsigned char[:] columns = np.zeros(y_size, dtype=np.ubyte)
 
     cdef int i, c, row, column, general_column, correction = 0
+
+    points = []
 
     # Evaluate image in segments
     for f in eval_frames:
@@ -56,11 +59,13 @@ cpdef unsigned char[:,:] find_lines(unsigned char[:,:] edges_frame, int threshol
                 # is linear
                 if row_sum[row] != 0 and (<float> f[row][column] * column_sum[column] / row_sum[row]) > (tolerance):
                     cut_frame[row][general_column] = 255
+                    points.append([general_column, x_size - row])
                 # is not
                 else:
                     cut_frame[row][general_column] = 0
 
         row_sum[:] = 0
         column_sum[:] = 0
+
 
     return cut_frame

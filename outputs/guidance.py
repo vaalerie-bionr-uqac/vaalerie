@@ -26,9 +26,10 @@ class Guidance:
 
         self.initialize_gpio()
 
+
     def control_steering(self, steering_input):
+        # Control steering from duty cycle (map 5.2 to 9.2)
         self.steering.ChangeDutyCycle(steering_input)
-        time.sleep(1)
 
     def control_speed(self, speed_input):
         # Control motor speed from duty cycle (map 2.5 to 12.5)

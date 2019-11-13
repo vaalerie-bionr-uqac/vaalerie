@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9b2092f9-5664-433d-9387-1ddb23cc12bd" name="Default Changelist" comment="" />
+    <list default="true" id="9b2092f9-5664-433d-9387-1ddb23cc12bd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/beginw.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/communication/publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/communication/publisher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engineering/motion_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/engineering/motion_eng.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engineering/surround_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/engineering/surround_eng.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/adder.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/lines_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/lines_camera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/surround_sensor.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/surround_sensor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/track_line_filter.cpython-37m-arm-linux-gnueabihf.so" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/track_line_filter.cpython-37m-arm-linux-gnueabihf.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/track_line_filter.pyx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/track_line_filter.pyx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/management.py" beforeDir="false" afterPath="$PROJECT_DIR$/controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/guidance.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/guidance.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +68,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.lines_camera">
+  <component name="RunManager" selected="Python.management">
+    <configuration type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="vaalerie" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="lines_camera" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="vaalerie" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -76,27 +111,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="ai" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="management" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="vaalerie" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -109,7 +123,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/management.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/controller.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -139,18 +153,41 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="surround_eng" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="vaalerie" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/engineering" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/engineering/surround_eng.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.lines_camera" />
-      <item itemvalue="Python.main" />
+      <item itemvalue="Python." />
       <item itemvalue="Python.management" />
       <item itemvalue="Python.setup" />
+      <item itemvalue="Python.surround_eng" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.lines_camera" />
-        <item itemvalue="Python.setup" />
         <item itemvalue="Python.management" />
-        <item itemvalue="Python.main" />
+        <item itemvalue="Python.lines_camera" />
+        <item itemvalue="Python.surround_eng" />
+        <item itemvalue="Python.setup" />
+        <item itemvalue="Python." />
       </list>
     </recent_temporary>
   </component>
@@ -256,7 +293,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572903550455</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Project import: Track line filter C library code import as .so file. Must be compiled from track_line_filter.pyx (Cython code) with Cython compiler.">
+      <created>1572968359433</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1572968359433</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -279,6 +323,7 @@
     <MESSAGE value="Project import: Line reading code correction. Now uses HoughLineP from OpenCV. Watch() and continuous_watch() updated. Line repetition analysis now supported. Lines are not sent to surr. Eng. as of right now." />
     <MESSAGE value="Project import: Temporary modification for connection between Python3.7 and C++ for lines filtering time saving (Code is running but not as expected)." />
     <MESSAGE value="Project import: Modification for connection between Python3.7 and C for lines filtering. Functionnal code." />
-    <option name="LAST_COMMIT_MESSAGE" value="Project import: Modification for connection between Python3.7 and C for lines filtering. Functionnal code." />
+    <MESSAGE value="Project import: Track line filter C library code import as .so file. Must be compiled from track_line_filter.pyx (Cython code) with Cython compiler." />
+    <option name="LAST_COMMIT_MESSAGE" value="Project import: Track line filter C library code import as .so file. Must be compiled from track_line_filter.pyx (Cython code) with Cython compiler." />
   </component>
 </project>
