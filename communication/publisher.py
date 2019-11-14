@@ -20,8 +20,9 @@ class Publisher:
     guidance = Guidance(11, 33, 32, 50)
     display = Display()
 
-    def general_publication(self, steering_input):
+    def general_publication(self, steering_input, speed_input):
         self.guidance.control_steering(steering_input)
+        self.guidance.control_speed(speed_input)
         self.guidance.brake_is_on(True)
         self.display.emotion_factor = 0
         # Publishing values to Bluetooth

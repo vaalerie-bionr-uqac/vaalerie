@@ -4,8 +4,8 @@
 import numpy as np
 cimport numpy as np
 
-
-cpdef unsigned char[:,:] find_lines(unsigned char[:,:] edges_frame, int threshold, float tolerance, int cut):
+# unsigned char[:,:]
+cpdef find_lines(unsigned char[:,:] edges_frame, int threshold, float tolerance, int cut):
     # Resize frame to desired value (horizontal cut)
     cdef unsigned char[:,:] cut_frame = edges_frame[cut:]
 
@@ -68,4 +68,4 @@ cpdef unsigned char[:,:] find_lines(unsigned char[:,:] edges_frame, int threshol
         column_sum[:] = 0
 
 
-    return cut_frame
+    return points

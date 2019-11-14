@@ -2138,7 +2138,7 @@ static PyObject *contiguous = 0;
 static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
-static __Pyx_memviewslice __pyx_f_17track_line_filter_find_lines(__Pyx_memviewslice, int, float, int, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_17track_line_filter_find_lines(__Pyx_memviewslice, int, float, int, int __pyx_skip_dispatch); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -2492,14 +2492,14 @@ static PyObject *__pyx_codeobj__32;
 
 /* "track_line_filter.pyx":8
  * 
- * 
- * cpdef unsigned char[:,:] find_lines(unsigned char[:,:] edges_frame, int threshold, float tolerance, int cut):             # <<<<<<<<<<<<<<
+ * # unsigned char[:,:]
+ * cpdef find_lines(unsigned char[:,:] edges_frame, int threshold, float tolerance, int cut):             # <<<<<<<<<<<<<<
  *     # Resize frame to desired value (horizontal cut)
  *     cdef unsigned char[:,:] cut_frame = edges_frame[cut:]
  */
 
 static PyObject *__pyx_pw_17track_line_filter_1find_lines(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static __Pyx_memviewslice __pyx_f_17track_line_filter_find_lines(__Pyx_memviewslice __pyx_v_edges_frame, int __pyx_v_threshold, float __pyx_v_tolerance, int __pyx_v_cut, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_f_17track_line_filter_find_lines(__Pyx_memviewslice __pyx_v_edges_frame, int __pyx_v_threshold, float __pyx_v_tolerance, int __pyx_v_cut, CYTHON_UNUSED int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_v_cut_frame = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_x;
   int __pyx_v_y;
@@ -2518,7 +2518,7 @@ static __Pyx_memviewslice __pyx_f_17track_line_filter_find_lines(__Pyx_memviewsl
   int __pyx_v_general_column;
   int __pyx_v_correction;
   PyObject *__pyx_v_points = NULL;
-  __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_t_2;
@@ -2564,7 +2564,7 @@ static __Pyx_memviewslice __pyx_f_17track_line_filter_find_lines(__Pyx_memviewsl
   __Pyx_RefNannySetupContext("find_lines", 0);
 
   /* "track_line_filter.pyx":10
- * cpdef unsigned char[:,:] find_lines(unsigned char[:,:] edges_frame, int threshold, float tolerance, int cut):
+ * cpdef find_lines(unsigned char[:,:] edges_frame, int threshold, float tolerance, int cut):
  *     # Resize frame to desired value (horizontal cut)
  *     cdef unsigned char[:,:] cut_frame = edges_frame[cut:]             # <<<<<<<<<<<<<<
  * 
@@ -3611,16 +3611,17 @@ __pyx_t_3 = __Pyx_MemoryView_Len(__pyx_t_4);
   /* "track_line_filter.pyx":71
  * 
  * 
- *     return cut_frame             # <<<<<<<<<<<<<<
+ *     return points             # <<<<<<<<<<<<<<
  */
-  __PYX_INC_MEMVIEW(&__pyx_v_cut_frame, 0);
-  __pyx_r = __pyx_v_cut_frame;
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_points);
+  __pyx_r = __pyx_v_points;
   goto __pyx_L0;
 
   /* "track_line_filter.pyx":8
  * 
- * 
- * cpdef unsigned char[:,:] find_lines(unsigned char[:,:] edges_frame, int threshold, float tolerance, int cut):             # <<<<<<<<<<<<<<
+ * # unsigned char[:,:]
+ * cpdef find_lines(unsigned char[:,:] edges_frame, int threshold, float tolerance, int cut):             # <<<<<<<<<<<<<<
  *     # Resize frame to desired value (horizontal cut)
  *     cdef unsigned char[:,:] cut_frame = edges_frame[cut:]
  */
@@ -3636,15 +3637,9 @@ __pyx_t_3 = __Pyx_MemoryView_Len(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_20);
   __Pyx_XDECREF(__pyx_t_21);
   __PYX_XDEC_MEMVIEW(&__pyx_t_22, 1);
-  __pyx_r.data = NULL;
-  __pyx_r.memview = NULL;
   __Pyx_AddTraceback("track_line_filter.find_lines", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  goto __pyx_L2;
+  __pyx_r = 0;
   __pyx_L0:;
-  if (unlikely(!__pyx_r.memview)) {
-    PyErr_SetString(PyExc_TypeError, "Memoryview return value is not initialized");
-  }
-  __pyx_L2:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_cut_frame, 1);
   __Pyx_XDECREF(__pyx_v_eval_frames);
   __PYX_XDEC_MEMVIEW(&__pyx_v_f, 1);
@@ -3653,6 +3648,7 @@ __pyx_t_3 = __Pyx_MemoryView_Len(__pyx_t_4);
   __PYX_XDEC_MEMVIEW(&__pyx_v_rows, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_columns, 1);
   __Pyx_XDECREF(__pyx_v_points);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -3743,25 +3739,19 @@ static PyObject *__pyx_pw_17track_line_filter_1find_lines(PyObject *__pyx_self, 
 static PyObject *__pyx_pf_17track_line_filter_find_lines(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_edges_frame, int __pyx_v_threshold, float __pyx_v_tolerance, int __pyx_v_cut) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("find_lines", 0);
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(!__pyx_v_edges_frame.memview)) { __Pyx_RaiseUnboundLocalError("edges_frame"); __PYX_ERR(0, 8, __pyx_L1_error) }
-  __pyx_t_1 = __pyx_f_17track_line_filter_find_lines(__pyx_v_edges_frame, __pyx_v_threshold, __pyx_v_tolerance, __pyx_v_cut, 0); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 8, __pyx_L1_error)
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 2, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_char, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_char, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
-  __pyx_t_1.memview = NULL;
-  __pyx_t_1.data = NULL;
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_t_1 = __pyx_f_17track_line_filter_find_lines(__pyx_v_edges_frame, __pyx_v_threshold, __pyx_v_tolerance, __pyx_v_cut, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
   goto __pyx_L0;
 
   /* function exit code */
   __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
-  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_AddTraceback("track_line_filter.find_lines", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;

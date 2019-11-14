@@ -70,19 +70,19 @@ class LinesCamera:
         # Contours
         edges_frame = cv2.Canny(gray_frame, 100, 100)
         # Filter contours for track lines w/ C tlf library
-        filtered_frame = np.asarray(tlf.find_lines(edges_frame, 4, 0.6, 0))
-        # points = np.asarray(tlf.find_lines(edges_frame, 4, 0.6, 0))
+        #filtered_frame = np.asarray(tlf.find_lines(edges_frame, 4, 0.6, 0))
+        points = np.asarray(tlf.find_lines(edges_frame, 4, 0.6, 0))
         # Find lines
-        lines = cv2.HoughLinesP(filtered_frame, rho=1, theta=np.pi / 360, threshold=8, minLineLength=1, maxLineGap=220)
+        """lines = cv2.HoughLinesP(filtered_frame, rho=1, theta=np.pi / 360, threshold=8, minLineLength=1, maxLineGap=220)
         # Sort lines for 2 best line options
         if lines is not None:
             sorted_lines = self.sort_lines(lines)
         else:
             sorted_lines = None
         # Add lines to final frame
-        # final_frame = self.add_lines(sorted_lines, small_frame)
+        # final_frame = self.add_lines(sorted_lines, small_frame)"""
 
-        return sorted_lines
+        return points
 
     def add_lines(self, lines, small_frame):
         # if lines detected
