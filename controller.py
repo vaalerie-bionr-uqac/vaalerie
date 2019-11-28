@@ -35,9 +35,9 @@ class Controller:
     def control_loop(self):
         while self.isON:
             # Collect data from surrounding
-            self.collect_surr_data()
+            #self.collect_surr_data()
             # Process output data w/ MPC
-            self.mpc()
+            #self.mpc()
             # Provide  publisher with output data
             self.send_data_to_publisher()
             self.isON = False
@@ -52,7 +52,7 @@ class Controller:
     def send_data_to_publisher(self):
         # Push data to publisher
         # Data will be computed from this object after getting data from engineers
-        self.publisher.general_publication(7, 4)
+        self.publisher.general_publication(0.52, 1.5)
 
     def collect_surr_data(self):
         # Collect data from surround engineer

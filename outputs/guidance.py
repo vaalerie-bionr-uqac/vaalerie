@@ -8,40 +8,47 @@ created on thrusday September 26 2019
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
-import ASUS.GPIO as gpio
+import Adafruit_PCA9685
 import time
 
 
 class Guidance:
 
     steering = 0
-    speed = 0
+    motor = 1
+    rear_light = 2
+    pca = None
 
-    def __init__(self, rear_light_pin, steering_pin, speed_pin, hz):
-        # 26 is IN
-        self.rear_light_pin = rear_light_pin
-        self.steering_pin = steering_pin
-        self.speed_pin = speed_pin
+    def __init__(self, hz):
         self.hz = hz
-
-        self.initialize_gpio()
-
+        # Open pwm control with PCA9685
+        self.initialize_pwm()
 
     def control_steering(self, steering_input):
-        # Control steering from duty cycle (map 5.2 to 9.2)
-        self.steering.ChangeDutyCycle(steering_input)
+        # Control steering from duty cycle (map 1.04 to 1.84 ms)
+        self.pca.set_pwm(self.steering, 0, self.hz*4.096*steering_input)
 
     def control_speed(self, speed_input):
-        # Control motor speed from duty cycle (map 2.5 to 12.5)
-        self.speed.ChangeDutyCycle(speed_input)
+        # Control motor speed from duty cycle (map 1 to 2 ms)
+        self.pca.set_pwm(self.motor, 0, self.hz*4.096*speed_input)
 
     def brake_is_on(self, state):
         # Open rear lights when brakes are applied
-        gpio.output(self.rear_light_pin, int(state))
+        if state:
+            self.pca.set_pwm(self.rear_light, 0, self.hz*4.096*10)
+        else:
+            self.pca.set_pwm(self.rear_light, 0, 0)
 
-    def initialize_gpio(self):
+    def initialize_pwm(self):
+        # Initialize PCA9685 pwm generator
+        self.pca = Adafruit_PCA9685.PCA9685()
+        self.pca.set_pwm_freq(self.hz)
+
+        # Initialize motor pin to 0 speed on init (1.5 ms)
+        self.pca.set_pwm(self.motor, 0, self.hz*4.096*1.5)
+
         # Setup TINKERBOARD GPIO's
-        gpio.setwarnings(False)
+        """gpio.setwarnings(False)
         gpio.setmode(gpio.BOARD)
 
         # Setup GPIO inputs and outputs
@@ -54,4 +61,5 @@ class Guidance:
         self.steering.start(0)  # Start servo at 0 degrees
 
         self.speed = gpio.PWM(self.speed_pin, self.hz)
-        self.speed.start(0)  # Initialize with 0 speed
+        self.speed.start(0)  # Initialize with 0 speed"""
+

@@ -17,7 +17,7 @@ from outputs.display import Display
 class Publisher:
 
     # Initialize Tinkerboard GPIO pins
-    guidance = Guidance(11, 33, 32, 50)
+    guidance = Guidance(100)
     display = Display()
 
     def general_publication(self, steering_input, speed_input):
