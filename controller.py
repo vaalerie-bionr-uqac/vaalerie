@@ -8,10 +8,10 @@ last updated on wednesday November 13 2019
 
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
+
 from communication.publisher import Publisher
 # from engineering.motion_eng import MotionEngineer
 from engineering.surround_eng import SurroundEng
-import cv2
 
 
 class Controller:
@@ -52,7 +52,7 @@ class Controller:
     def send_data_to_publisher(self):
         # Push data to publisher
         # Data will be computed from this object after getting data from engineers
-        self.publisher.general_publication(0.52, 1.5)
+        self.publisher.general_publication(1.2, 1.5)
 
     def collect_surr_data(self):
         # Collect data from surround engineer

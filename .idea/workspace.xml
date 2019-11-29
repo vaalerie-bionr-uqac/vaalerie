@@ -7,7 +7,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/communication/publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/communication/publisher.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/display.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/display.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/outputs/guidance.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/guidance.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -306,7 +306,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573682064511</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Project import: &#10;Modifications for transfert from Tinker board S to Rasp PI 4 and code modif. for PCA9685 PWM control. UNVERIFIED CODE. Might not work properly as off right now.">
+      <created>1574974217588</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1574974217589</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -331,6 +338,7 @@
     <MESSAGE value="Project import: Modification for connection between Python3.7 and C for lines filtering. Functionnal code." />
     <MESSAGE value="Project import: Track line filter C library code import as .so file. Must be compiled from track_line_filter.pyx (Cython code) with Cython compiler." />
     <MESSAGE value="Project import: &#10;Motion eng - Controller name modif.&#10;Surround eng - Data request from input devices added.&#10;Lines camera - Now returns filtered lines corresponding to borders.&#10;Guidance - Added steering control. Code is functionnal with good mapping.&#10;Controller : Modif. name from management. Added links to Engineers and __main__" />
-    <option name="LAST_COMMIT_MESSAGE" value="Project import: &#10;Motion eng - Controller name modif.&#10;Surround eng - Data request from input devices added.&#10;Lines camera - Now returns filtered lines corresponding to borders.&#10;Guidance - Added steering control. Code is functionnal with good mapping.&#10;Controller : Modif. name from management. Added links to Engineers and __main__" />
+    <MESSAGE value="Project import: &#10;Modifications for transfert from Tinker board S to Rasp PI 4 and code modif. for PCA9685 PWM control. UNVERIFIED CODE. Might not work properly as off right now." />
+    <option name="LAST_COMMIT_MESSAGE" value="Project import: &#10;Modifications for transfert from Tinker board S to Rasp PI 4 and code modif. for PCA9685 PWM control. UNVERIFIED CODE. Might not work properly as off right now." />
   </component>
 </project>

@@ -8,8 +8,6 @@ created on thrusday September 26 2019
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
-from outputs import display, guidance
-
 from outputs.guidance import Guidance
 from outputs.display import Display
 

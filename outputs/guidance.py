@@ -9,7 +9,6 @@ project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
 import Adafruit_PCA9685
-import time
 
 
 class Guidance:
@@ -25,17 +24,17 @@ class Guidance:
         self.initialize_pwm()
 
     def control_steering(self, steering_input):
-        # Control steering from duty cycle (map 1.04 to 1.84 ms)
-        self.pca.set_pwm(self.steering, 0, self.hz*4.096*steering_input)
+        # Control steering from duty cycle (map 0. to 1.84 ms)
+        self.pca.set_pwm(self.steering, 0, int(self.hz*4.096*steering_input))
 
     def control_speed(self, speed_input):
         # Control motor speed from duty cycle (map 1 to 2 ms)
-        self.pca.set_pwm(self.motor, 0, self.hz*4.096*speed_input)
+        self.pca.set_pwm(self.motor, 0, int(self.hz*4.096*speed_input))
 
     def brake_is_on(self, state):
         # Open rear lights when brakes are applied
         if state:
-            self.pca.set_pwm(self.rear_light, 0, self.hz*4.096*10)
+            self.pca.set_pwm(self.rear_light, 0, int(self.hz*4.096*10.0))
         else:
             self.pca.set_pwm(self.rear_light, 0, 0)
 
@@ -45,7 +44,7 @@ class Guidance:
         self.pca.set_pwm_freq(self.hz)
 
         # Initialize motor pin to 0 speed on init (1.5 ms)
-        self.pca.set_pwm(self.motor, 0, self.hz*4.096*1.5)
+        self.pca.set_pwm(self.motor, 0, int(self.hz*4.096*1.5))
 
         # Setup TINKERBOARD GPIO's
         """gpio.setwarnings(False)
