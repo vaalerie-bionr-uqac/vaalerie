@@ -46,7 +46,7 @@ class Guidance:
 
         # Initialize motor pin to 0 speed on init (1.5 ms - corrected to 4096 res.)
         self.pca.set_pwm(self.motor, 0, 594)
-        time.sleep(0.5)
+        time.sleep(1)
         # Setup TINKERBOARD GPIO's
         """gpio.setwarnings(False)
         gpio.setmode(gpio.BOARD)

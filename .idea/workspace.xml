@@ -316,7 +316,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575045253847</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Project import: &#10;Modifications for transfer from Tinker board S to Rasp PI 4 and code modif. for PCA9685 PWM control. Steering and speed control is functionnal. Mapped values range from 1 to 2 ms for pulses.">
+      <created>1575057991177</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1575057991177</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -343,6 +350,7 @@
     <MESSAGE value="Project import: &#10;Motion eng - Controller name modif.&#10;Surround eng - Data request from input devices added.&#10;Lines camera - Now returns filtered lines corresponding to borders.&#10;Guidance - Added steering control. Code is functionnal with good mapping.&#10;Controller : Modif. name from management. Added links to Engineers and __main__" />
     <MESSAGE value="Project import: &#10;Modifications for transfert from Tinker board S to Rasp PI 4 and code modif. for PCA9685 PWM control. UNVERIFIED CODE. Might not work properly as off right now." />
     <MESSAGE value="Project import: &#10;Modifications for transfer from Tinker board S to Rasp PI 4 and code modif. for PCA9685 PWM control. Code does not work properly as off right now. XL-5 opening sequence not programmed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Project import: &#10;Modifications for transfer from Tinker board S to Rasp PI 4 and code modif. for PCA9685 PWM control. Code does not work properly as off right now. XL-5 opening sequence not programmed" />
+    <MESSAGE value="Project import: &#10;Modifications for transfer from Tinker board S to Rasp PI 4 and code modif. for PCA9685 PWM control. Steering and speed control is functionnal. Mapped values range from 1 to 2 ms for pulses." />
+    <option name="LAST_COMMIT_MESSAGE" value="Project import: &#10;Modifications for transfer from Tinker board S to Rasp PI 4 and code modif. for PCA9685 PWM control. Steering and speed control is functionnal. Mapped values range from 1 to 2 ms for pulses." />
   </component>
 </project>

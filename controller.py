@@ -8,6 +8,7 @@ last updated on wednesday November 13 2019
 
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
+from pip._vendor.distlib.compat import raw_input
 
 from communication.publisher import Publisher
 # from engineering.motion_eng import MotionEngineer
@@ -22,6 +23,8 @@ class Controller:
     speed = None
     steering = None
     isON = True
+    motor_speed = 1.45
+    steering_pos = 1.5
     position = [480, 320]
 
     def __init__(self):
@@ -34,14 +37,26 @@ class Controller:
         # motion_eng = MotionEngineer()
 
     def control_loop(self):
+        self.send_data_to_publisher()
         while self.isON:
             # Collect data from surrounding
             #self.collect_surr_data()
             # Process output data w/ MPC
             #self.mpc()
             # Provide  publisher with output data
+            k = raw_input()
+            if k == 'w':
+                self.motor_speed += 0.05
+            elif k == 's':
+                self.motor_speed -= 0.05
+            elif k == 'a':
+                self.steering_pos -= 0.1
+            elif k == 'd':
+                self.steering_pos += 0.1
+            elif k == 'q':
+                self.motor_speed = 1.45
+                self.isON = False
             self.send_data_to_publisher()
-            self.isON = False
 
     def mpc(self):
         self.speed = self.publisher.guidance.speed
@@ -53,8 +68,7 @@ class Controller:
     def send_data_to_publisher(self):
         # Push data to publisher
         # Data will be computed from this object after getting data from engineers
-        self.publisher.general_publication(1.5, 1.45)
-        time.sleep(5)
+        self.publisher.general_publication(self.steering_pos, self.motor_speed)
 
     def collect_surr_data(self):
         # Collect data from surround engineer
