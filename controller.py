@@ -13,7 +13,7 @@ from pip._vendor.distlib.compat import raw_input
 from communication.publisher import Publisher
 # from engineering.motion_eng import MotionEngineer
 from engineering.surround_eng import SurroundEng
-import time
+import RPi.GPIO as GPIO
 
 
 class Controller:
@@ -38,7 +38,8 @@ class Controller:
 
     def control_loop(self):
         self.send_data_to_publisher()
-        while self.isON:
+
+        while self.surr_eng.request_safety_checks():
             # Collect data from surrounding
             #self.collect_surr_data()
             # Process output data w/ MPC
@@ -46,22 +47,19 @@ class Controller:
             # Provide  publisher with output data
             k = raw_input()
             if k == 'w':
-                self.motor_speed += 0.05
+                self.motor_speed += 0.005
             elif k == 's':
-                self.motor_speed -= 0.05
+                self.motor_speed -= 0.005
             elif k == 'a':
-                self.steering_pos -= 0.1
+                self.steering_pos -= 0.05
             elif k == 'd':
-                self.steering_pos += 0.1
+                self.steering_pos += 0.05
             elif k == 'q':
                 self.motor_speed = 1.45
                 self.isON = False
             self.send_data_to_publisher()
 
-    def mpc(self):
-        self.speed = self.publisher.guidance.speed
-        self.steering = self.publisher.guidance.steering
-
+    def rabbit_mpc(self):
         for line in self.lines:
             print(str(line[0]) + ',' + str(line[1]))
 

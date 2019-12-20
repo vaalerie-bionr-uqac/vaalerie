@@ -14,8 +14,8 @@ import time
 
 class Guidance:
 
-    steering = 0
-    motor = 1
+    motor = 0
+    steering = 1
     rear_light = 2
     pca = None
 
@@ -49,7 +49,7 @@ class Guidance:
         time.sleep(1)
         # Setup TINKERBOARD GPIO's
         """gpio.setwarnings(False)
-        gpio.setmode(gpio.BOARD)
+        GPIO.setmode(GPIO.BOARD)
 
         # Setup GPIO inputs and outputs
         gpio.setup(self.rear_light_pin, gpio.OUT)

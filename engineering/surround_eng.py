@@ -11,7 +11,7 @@ project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 
 
 # from management import Management
-# from inputs.safety import Safety
+from inputs.safety import Safety
 # from inputs.surround_sensor import SurrEng
 from inputs.lines_camera import LinesCamera
 
@@ -22,13 +22,12 @@ class SurroundEng:
 
     def __init__(self):
         self.line_cam = LinesCamera()
+        self.safety = Safety()
 
     def request_lines_cam_data(self):
         self.lines = self.line_cam.watch()
 
         return self.lines
 
-    """def request_safety_checks(self):
-        state = 
-        
-        return state"""
+    def request_safety_checks(self):
+        return self.safety.state
