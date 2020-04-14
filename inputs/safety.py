@@ -9,7 +9,7 @@ last updated on friday December 20 2019
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 # import pigpio as gpio
 # import datetime
 
@@ -24,13 +24,13 @@ class Safety:
 
     def __init__(self):
         # Setup RASPBERRY PI 4 GPIO's
-        GPIO.setmode(GPIO.BOARD)
+        #GPIO.setmode(GPIO.BOARD)
         # Remove warnings
-        GPIO.setwarnings(False)
+        #GPIO.setwarnings(False)
         # PCA freeze pin setup
-        GPIO.setup(self.oe_pin, GPIO.OUT)
+        #GPIO.setup(self.oe_pin, GPIO.OUT)
         # Emergency trigger pin setup
-        GPIO.setup(self.emergency_pin, GPIO.IN)
+        #GPIO.setup(self.emergency_pin, GPIO.IN)
         # Attach an interrupt for emergency pin 10 for rising edge only
         """GPIO.add_event_detect(self.emergency_pin, GPIO.RISING, callback=self.check_emergency_stop)"""
 
