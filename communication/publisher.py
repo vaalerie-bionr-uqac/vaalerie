@@ -14,13 +14,18 @@ from outputs.display import Display
 
 class Publisher:
 
-    # Initialize Tinkerboard GPIO pins
     guidance = Guidance(100)
     display = Display()
 
-    def general_publication(self, steering_input, speed_input):
-        self.guidance.control_steering(steering_input)
-        self.guidance.control_speed(speed_input)
+    def general_publication(self, steering, throttle):
+        self.guidance.control_steering(steering)
+        self.guidance.control_throttle(throttle)
         self.guidance.brake_is_on(True)
         self.display.emotion_factor = 0
         # Publishing values to Bluetooth
+
+    def steering_publication(self, steering):
+        self.guidance.control_steering(steering)
+
+    def throttle_publication(self, throttle):
+        self.guidance.control_throttle(throttle)

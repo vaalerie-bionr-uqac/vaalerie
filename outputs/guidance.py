@@ -14,9 +14,9 @@ import time
 
 class Guidance:
 
-    motor = 0
-    steering = 1
-    rear_light = 2
+    motor_pin = 0
+    steering_pin = 1
+    rear_light_pin = 2
     pca = None
 
     def __init__(self, hz):
@@ -24,20 +24,20 @@ class Guidance:
         # Open pwm control with PCA9685
         self.initialize_pwm()
 
-    def control_steering(self, steering_input):
+    def control_steering(self, steering):
         # Control steering from duty cycle (map 0. to 1.84 ms)
-        self.pca.set_pwm(self.steering, 0, int(self.hz*4.096*steering_input))
+        self.pca.set_pwm(self.steering_pin, 0, int(self.hz * 4.096 * steering))
 
-    def control_speed(self, speed_input):
+    def control_throttle(self, throttle):
         # Control motor speed from duty cycle (map 1 to 2 ms)
-        self.pca.set_pwm(self.motor, 0, int(self.hz*4.096*speed_input))
+        self.pca.set_pwm(self.motor_pin, 0, int(self.hz * 4.096 * throttle))
 
     def brake_is_on(self, state):
         # Open rear lights when brakes are applied
         if state:
-            self.pca.set_pwm(self.rear_light, 0, 4096)
+            self.pca.set_pwm(self.rear_light_pin, 0, 4096)
         else:
-            self.pca.set_pwm(self.rear_light, 0, 0)
+            self.pca.set_pwm(self.rear_light_pin, 0, 0)
 
     def initialize_pwm(self):
         # Initialize PCA9685 pwm generator
@@ -45,7 +45,7 @@ class Guidance:
         self.pca.set_pwm_freq(self.hz)
 
         # Initialize motor pin to 0 speed on init (1.5 ms - corrected to 4096 res.)
-        self.pca.set_pwm(self.motor, 0, 594)
+        self.pca.set_pwm(self.motor_pin, 0, 594)
         time.sleep(1)
         # Setup TINKERBOARD GPIO's
         """gpio.setwarnings(False)

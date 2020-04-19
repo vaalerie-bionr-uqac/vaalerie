@@ -13,13 +13,12 @@ from pip._vendor.distlib.compat import raw_input
 
 from communication.publisher import Publisher
 # from engineering.motion_eng import MotionEngineer
-from engineering.surround_eng import SurroundEng
-# import RPi.GPIO as GPIO
+from engineering.controller import Controller
 import numpy as np
 
 
 def rad_to_pulse(delta):
-    return 2.107 * delta + 0.92
+    return -1.1459 * delta + 1.5
 
 
 def speed_to_throttle(v):
@@ -28,93 +27,89 @@ def speed_to_throttle(v):
 
 class Car:
 
-    dD_MAX = 5
-    D_MAX = 25
-    D_step = 1
+    lf = 0.13  # Distance from front axle to CM
+    lr = 0.13  # Distance from rear axle to CM
+    stance = 0.0635  # Distance from center line to spindle
 
-    L = 0.5
-    w = 0.18
+    Ddel_max = 5  # Max steering angle input change
+    del_max = 22  # Max steering angle
+    del_inc = 1  # Steering input increment size
 
-    v = 0  # m/s
-    y = 0  # m
-    delta = 0.0  # rad
-    psi = np.pi/3  # rad
-    beta = np.arctan(0.5 * np.tan(delta))  # rad
-    e_psi = 0.0  # rad
+    R1 = None  # Rear wheels rotation radius
+    R0 = None  # Mass center rotation radius
+
+    v = 0.5  # m/s  speed
+    delta = 0.0  # degrees
     e = 0.0  # m
 
-    lines = []
+    psi = 0.0
+
     throttle = 1.45
-    steering_pos = 1.5
 
     def __init__(self):
-        # Create new surroundings engineer instance
-        self.surr_eng = SurroundEng()
-        # Create new publisher instance
-        self.publisher = Publisher()
-        # Create new motion engineer instance !!!! ALERT - MUST BE CREATED !!!!
-        # motion_eng = MotionEngineer()
+        # Generate Rear wheel rotation radius database
+        self.R1 = [(self.lr + self.lf + (self.stance/np.tan(np.pi/2 - a))) * np.tan(np.pi/2 - a) for a in
+                   np.linspace(np.radians(self.del_inc), np.radians(self.del_max), int(self.del_max / self.del_inc))]
+        self.R0 = [np.sqrt(r ** 2 + self.lr ** 2) for r in self.R1]  # Generate Front wheel rotation radius database
+
+        self.controller = Controller()  # Create new surroundings engineer instance
+        self.publisher = Publisher()  # Create new publisher instance
+        # motion_eng = MotionEngineer()  # Create new motion engineer instance
 
     def lead(self):
-        while self.surr_eng.request_safety_checks():
-            actions = self.surr_eng.simple_solve(self)
-            self.apply_actions(actions)
-            # Data will be computed from this object after getting data from engineers
-            # self.publisher.general_publication(self.steering_pos, self.throttle)
-            break
+        while self.controller.request_safety_checks():
+            d = self.controller.steering_PID(self)
+            self.steer(d)
 
-    def apply_actions(self, actions):
-        d, s = actions
-        self.publisher.general_publication(rad_to_pulse(d), speed_to_throttle(s))
-        self.delta = d
-        self.v = s
+    def steer(self, delta):
+        self.publisher.steering_publication(rad_to_pulse(np.radians(delta)))
+        self.delta = delta
+
+    def accelerate(self, throttle):
+        self.publisher.throttle_publication(throttle)
+        self.throttle = throttle
 
     def set_state(self, path):
-        self.y = -np.polyval(path, 0)
-        self.e = self.y
+        self.e = -np.polyval(path, 0)
         self.psi = -np.arctan(np.polyval(np.polyder(path), 0))
 
-        while self.surr_eng.request_safety_checks():
-            # Collect data from surrounding
-            #self.collect_surr_data()
-            # Process output data w/ MPC
-            #self.mpc()
+    def manual_ctrl_loop(self):
+        while self.controller.request_safety_checks():
             # Provide  publisher with output data
+            print(self.delta)
             k = raw_input()
             if k == 'w':
                 self.throttle += 0.005
             elif k == 's':
                 self.throttle -= 0.005
             elif k == 'a':
-                self.steering_pos -= 0.05
+                self.delta -= 1
             elif k == 'd':
-                self.steering_pos += 0.05
+                self.delta += 1
             elif k == 'q':
                 self.throttle = 1.45
                 self.isON = False
-            self.send_data_to_publisher()
+            self.publisher.general_publication(rad_to_pulse(np.radians(self.delta)), self.throttle)
 
-    #def send_data_to_publisher(self):
-        # Push data to publisher
-        # Data will be computed from this object after getting data from engineers
-        # self.publisher.general_publication(self.steering_pos, self.throttle)
-
-    def get_speed(self):
-        return self.throttle  # Temporary, should be V from analysis
+    # def send_data_to_publisher(self):
+    # Push data to publisher
+    # Data will be computed from this object after getting data from engineers
+    # self.publisher.general_publication(self.steering_pos, self.throttle)
 
     def get_steering_range(self):
-        lb = np.degrees(self.delta) - self.dD_MAX  # delta - 15 (degrees)
-        if lb < -self.D_MAX:  # 25 degrees limit
-            lb = -self.D_MAX
+        lb = self.delta - self.Ddel_max  # delta - 15 (degrees)
+        if lb < -self.del_max:  # 25 degrees limit
+            lb = -self.del_max
 
-        ub = np.degrees(self.delta) + self.dD_MAX  # delta + 15 (degrees)
-        if ub > self.D_MAX:  # 25 degrees limit
-            ub = self.D_MAX - self.dD_MAX
+        ub = self.delta + self.Ddel_max + self.del_inc  # delta + 15 (degrees)
+        if ub > self.del_max:  # 25 degrees limit
+            ub = self.del_max + self.del_inc
 
-        return np.arange(np.radians(lb), np.radians(ub), np.radians(self.D_step))  # WARNING !! VERIFY HERE
-
+        return np.arange(lb, ub, self.del_inc)
 
 # Initializing sequence code
 if __name__ == '__main__':
     car = Car()
+    print(car.delta)
     car.lead()
+    print(car.delta)

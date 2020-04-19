@@ -2,22 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9b2092f9-5664-433d-9387-1ddb23cc12bd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Utilisateur.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inputs/left_end.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inputs/longstraight.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vaalerie.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vaalerie.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/car.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/engineering/motion_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/engineering/motion_eng.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/engineering/surround_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/engineering/surround_eng.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car.py" beforeDir="false" afterPath="$PROJECT_DIR$/car.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/communication/publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/communication/publisher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/engineering/surround_eng.py" beforeDir="false" afterPath="$PROJECT_DIR$/engineering/controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inputs/lines_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/lines_camera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/safety.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/safety.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/guidance.py" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/guidance.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="Master" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -34,7 +36,8 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../vtc/car.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/inputs" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -50,7 +53,6 @@
       <recent name="$PROJECT_DIR$/inputs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Utilisateur\Documents\UQAC\MAITRISE\VAALERIE\Programmation\Python_Code\vaalerie\communication" />
       <recent name="$PROJECT_DIR$/inputs" />
     </key>
   </component>
@@ -80,27 +82,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/car.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="lineanalysis" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="vaalerie" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../lineanalysis.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -142,7 +123,28 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\Utilisateur\Documents\UQAC\MAITRISE\VAALERIE\Programmation\Python_Code\vaalerie\car.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/controller.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="setup" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="vaalerie" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/inputs" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/inputs/setup.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -163,7 +165,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/engineering/surround_eng.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/engineering/controller.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -175,17 +177,17 @@
     <list>
       <item itemvalue="Python.lines_camera" />
       <item itemvalue="Python.management" />
+      <item itemvalue="Python.setup" />
       <item itemvalue="Python.surround_eng" />
-      <item itemvalue="Python.lineanalysis" />
       <item itemvalue="Python.car" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.car" />
-        <item itemvalue="Python.lines_camera" />
-        <item itemvalue="Python.lineanalysis" />
         <item itemvalue="Python.management" />
+        <item itemvalue="Python.lines_camera" />
         <item itemvalue="Python.surround_eng" />
+        <item itemvalue="Python.setup" />
       </list>
     </recent_temporary>
   </component>
