@@ -8,8 +8,8 @@ created on thrusday September 26 2019
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
-import Adafruit_PCA9685
 import time
+import Adafruit_PCA9685
 
 
 class Guidance:
@@ -47,19 +47,5 @@ class Guidance:
         # Initialize motor pin to 0 speed on init (1.5 ms - corrected to 4096 res.)
         self.pca.set_pwm(self.motor_pin, 0, 594)
         time.sleep(1)
-        # Setup TINKERBOARD GPIO's
-        """gpio.setwarnings(False)
-        GPIO.setmode(GPIO.BOARD)
-
-        # Setup GPIO inputs and outputs
-        gpio.setup(self.rear_light_pin, gpio.OUT)
-        gpio.setup(self.steering_pin, gpio.OUT)
-        gpio.setup(self.speed_pin, gpio.OUT)
-
-        # Outputs controls
-        self.steering = gpio.PWM(self.steering_pin, self.hz)
-        self.steering.start(0)  # Start servo at 0 degrees
-
-        self.speed = gpio.PWM(self.speed_pin, self.hz)
-        self.speed.start(0)  # Initialize with 0 speed"""
+        self.pca.set_pwm(self.steering_pin, 0, 614)
 

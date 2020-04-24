@@ -6,20 +6,13 @@ last updated on tuesday April 9th 2020
     Office: H2-1180
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
-import datetime
-
-# import time
-
-import matplotlib.pyplot as plt
-# import pygame
-# import pygame.camera as pycam
-from PyV4L2Camera.camera import Camera
-from PIL import Image
-import numpy as np
-import cv2
 
 from scipy import signal
-from subprocess import call
+
+import cv2
+import time
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 def sort_lines(view, proximity=5, intensity=170, pxl_to_mx=27, pxl_to_my=40):
@@ -76,66 +69,22 @@ class LinesCamera:
     # Threshold and constants ta=hats can be adjusted to modify the result
     dark = np.array([0, 0, 205])  # Dark white[h, s, v]
     bright = np.array([255, 255, 255])  # Light white[h, s, v]
-    top = 425
-    bottom = -175
-    cam = None
+    top = 76
+    bottom = -32
     img = None
     cap = None
 
     def __init__(self):
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 352)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 288)
-        _, ppp = self.cap.read()
-        #cam = Camera('/dev/video0', 1280, 720)
-
-        #while True:
-         #   frame = cam.get_frame()
-          #  img = np.asarray(Image.frombytes('RGB', (1280, 720), frame, 'raw', 'BGR'))
-          #  cv2.imshow("poney", img)
-        # _, ppp = self.cap.read()  # Get image from USB WebCam
-        # cv2.imshow("ppp", ppp)
-            #if cv2.waitKey(0) & 0xFF == ord('q'):
-              #  break
-        # self.cap.release()
-        #cv2.destroyAllWindows()
-        # pygame.init()
-        # pycam.init()
-        # self.cam = pycam.Camera("/dev/video0", (350, 300), "HSV")
-        # _self.cam.start()
-        # self.img = pygame.surfarray.array3d(cam.get_image())
-        # self.img = cv2.transpose(self.img)
-        #img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
-        # cv2.imshow("poney", self.img)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-        # cam.stop()
-        """call(["sudo", "fswebcam", "-i", "0", "-r", "1600x1200", "--no-banner", "--png", "--rotate", "180",
-              "/home/pi/PycharmProjects/Master/inputs/view.png"])
-        time.sleep(5)
-        img = cv2.imread('inputs/view.png')
-        cv2.imshow("view.png", img)
-        time.sleep(5)
-        # Initialize video capture from port 0 w/ file path
-        # '/dev/v4l/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.4:1.0-video-index0'
-        # self.camera = cv2.VideoCapture(1, cv2.CAP_DSHOW)  # On Windows"""
-        # self.cap = cv2.VideoCapture(0)
-        # self.cap.release()
 
     def watch(self):
-        _, ppp = self.cap.read()  # Get image from USB WebCam
-        """while True:
-            _, ppp = self.cap.read()  # Get image from USB WebCam
-            #cv2.imshow("ppp", ppp)
-            print("_")
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-        self.cap.release()"""
-        #cv2.destroyAllWindows()
-        # Import image and do prelim manipulation (resize/convert color/unwarp)
-        img = cv2.imread('inputs/longstraight.png')  # Read image
+        # Read image and do prelim manipulation (rotate/convert color/unwarp)
+        _, img = self.cap.read()  # Get image from USB WebCam
+        cv2.imwrite("/home/pi/Desktop/pogo.png", img)
+        img = cv2.flip(cv2.flip(img, 0), 1)
         img = img[self.top:self.bottom]  # Cut to fit region of interest (up and down borders)
-        img = cv2.resize(img, (0, 0), fx=0.25, fy=1)  # Resize image (thinner and longer)
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Create an HSV image version
         unwarped = unwarp(hsv, get_vp_polygon(hsv))  # Remove image perspective
         # Line analysis by color
@@ -150,8 +99,5 @@ class LinesCamera:
         # plt.show()
         return objective
 
-
-"""if __name__ == '__main__':
-    cam1 = LinesCamera()
-    obj = cam1.watch()
-    print(obj)"""
+    def end_sequence(self):
+        self.cap.release()

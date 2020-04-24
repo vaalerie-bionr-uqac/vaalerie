@@ -8,8 +8,8 @@ created on thrusday September 26 2019
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
-from outputs.guidance import Guidance
 from outputs.display import Display
+from outputs.guidance import Guidance
 
 
 class Publisher:
@@ -22,7 +22,6 @@ class Publisher:
         self.guidance.control_throttle(throttle)
         self.guidance.brake_is_on(True)
         self.display.emotion_factor = 0
-        # Publishing values to Bluetooth
 
     def steering_publication(self, steering):
         self.guidance.control_steering(steering)
