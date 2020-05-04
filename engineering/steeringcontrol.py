@@ -12,7 +12,7 @@ project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 from inputs.safety import Safety
 from inputs.lines_camera import LinesCamera
 
-from datetime import datetime
+import time
 import numpy as np
 
 
@@ -25,13 +25,13 @@ class SteeringController:
     then = None
 
     # Weights
-    w_e = 4  # 24
-    w_e_psi = 5  # 5
+    We = 4  # 24
+    Wpsi = 5  # 5
 
     # P.I.D. controller parameters
-    p = 22  # To be modified
-    i = 0.8
-    d = 0.1
+    p = 0.0  # To be modified
+    i = 0.0
+    d = 0.0
 
     e0 = None
     se = 0.0
@@ -47,9 +47,10 @@ class SteeringController:
         if self.then is None:
             return 0.1
         else:
-            return datetime.now() - self.then
+            return time.time() - self.then
 
     def steering_PID(self):  # PID control
+        dt = self.set_dt()
         path = self.line_cam.watch()
         self.car.set_state(path)
         p = self.p
@@ -58,7 +59,7 @@ class SteeringController:
         self.se += self.car.e
         delta = p*self.car.e + i*self.se
         if self.e0:
-            delta += d*(self.car.e - self.e0)/self.dt
+            delta += d*(self.car.e - self.e0)/dt
         self.e0 = self.car.e
 
         if np.abs(delta) > self.car.del_max:
@@ -94,12 +95,12 @@ class SteeringController:
                 e_f.append(yf - np.polyval(path, xf))
                 e_psif.append(s*psi - np.polyval(np.polyder(path), xf))
 
-            J[index] = (self.w_e * e_f[index]) ** 2 + (self.w_e_psi * e_psif[index]) ** 2
+            J[index] = (self.We * e_f[index]) ** 2 + (self.Wpsi * e_psif[index]) ** 2
 
         min_val_index = int(np.argmin(J))
         delta = dlt_rng[min_val_index]
 
-        self.then = datetime.now()
+        self.then = time.time()
 
         return delta
 

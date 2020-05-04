@@ -8,20 +8,17 @@ created on thrusday September 26 2019
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
-from outputs.display import Display
 from outputs.guidance import Guidance
 
 
 class Publisher:
 
     guidance = Guidance(100)
-    display = Display()
 
     def general_publication(self, steering, throttle):
         self.guidance.control_steering(steering)
         self.guidance.control_throttle(throttle)
         self.guidance.brake_is_on(True)
-        self.display.emotion_factor = 0
 
     def steering_publication(self, steering):
         self.guidance.control_steering(steering)

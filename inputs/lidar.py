@@ -1,21 +1,29 @@
+"""
+created on thursday September 26 2019
+last updated on tuesday April 30th 2020
+@author: William Begin <william.begin2@uqac.ca>
+    M. Sc. (C) Sciences cliniques et biomedicales, UQAC
+    Office: H2-1180
+project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
+"""
 
-from engineering import motion_eng
+import busio
+from adafruit_lidarlite import *
 
 
-class Lidar:
+class LidarLiteV3:
 
-    position_x = 0
-    position_y = 0
-    #
-    theta_1 = 0
-    theta_2 = 0
-
-    runner_dist = 0
+    SCL = 3
+    SDA = 2
+    last_dist = None
+    lidar = None
 
     def __init__(self):
-        self.position_x = 0
-        self.position_y = 0
-        self.theta_1 = 0
-        self.theta_2 = 0
+        i2c = busio.I2C(self.SCL, self.SDA)  # Create library object using our Bus I2C port
+        self.lidar = LIDARLite(i2c, configuration=CONFIG_HIGHSENSITIVE)  # High sens. configuration, with i2c wires
 
-        self.runner_dist = 0
+    def get_distance(self):
+        return self.lidar.distance
+
+    def set_last_distance(self, d):
+        self.last_dist = d

@@ -9,9 +9,11 @@ last updated on wednesday November 13 2019
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
+from engineering.distancecontrol import DistanceController
 from engineering.steeringcontrol import SteeringController
 from communication.publisher import Publisher
 
+import csv
 import time
 import getch
 import socket
@@ -29,11 +31,16 @@ def mps_to_apw(v):
 def apw_to_mps(apw):
     return 23.64 * apw - 34.27
 
+
 def is_connected():
     if socket.gethostbyname(socket.gethostname()) == "127.0.0.1":
         return False
     else:
         return True
+
+
+def clamp(n, minn, maxn):
+    return max(min(maxn, n), minn)
 
 
 class Car:
@@ -49,7 +56,7 @@ class Car:
     R1 = None  # Rear wheels rotation radius
     R0 = None  # Mass center rotation radius
 
-    v = 0.5  # m/s  speed
+    v = 0.0  # m/s  speed
     delta = 0.0  # degrees
     e = 0.0  # m
 
@@ -60,20 +67,29 @@ class Car:
     mode = None  # 1, 2 or 3 for lead, kb ctrl and follow modes
     max_event = 2  # Maximum consecutive image analysis clipping event
 
+    # Data logging
+    EPSI = ["e psi [rad]"]
+    E = ["e [m]"]
+    CLIPPING_EVENTS = ["Clipping events"]
+    STEERING = ["Steering [s]"]
+    DELTA = ["Delta [deg]"]
+    THROTTLE = ["Throttle [s]"]
+
     def __init__(self):
         # Generate Rear wheel rotation radius database
         self.R1 = [(self.lr + self.lf + (self.stance/np.tan(np.pi/2 - a))) * np.tan(np.pi/2 - a) for a in
                    np.linspace(np.radians(self.del_inc), np.radians(self.del_max), int(self.del_max / self.del_inc))]
         self.R0 = [np.sqrt(r ** 2 + self.lr ** 2) for r in self.R1]  # Generate Front wheel rotation radius database
 
-        self.steer_ctrlr = SteeringController(self)  # Create new surroundings engineer instance
+        self.steer_ctrlr = SteeringController(self)  # Create new steering controller instance (USES PID OR PMPC)
+        self.dist_ctrlr = DistanceController(self)  # Create new distance controller instance (USES PID)
         self.publisher = Publisher()  # Create new publisher instance
         print("VAALERIE IS READY")
         self.init_mode()
 
     def init_mode(self):
         print("PLEASE SELECT CONTROL MODE :")
-        print("[1] LEAD MODE or [2] KEYBOARD CONTROL MODE")
+        print("[1] LEAD MODE, [2] KEYBOARD CONTROL MODE or [3] FOLLOW MODE")
         self.set_mode(input())
 
     def set_mode(self, mode):
@@ -82,6 +98,8 @@ class Car:
             self.lead_init_sequence()
         elif self.mode == '2':
             self.keyboard_ctrl()
+        elif self.mode == '3':
+            self.follow()
         else:
             self.init_mode()
 
@@ -96,12 +114,12 @@ class Car:
 
     def speedup(self, desired_output):
         if self.apw < desired_output:
-            self.publisher.throttle_publication(self.apw + 0.005)  # To be modified
-            self.apw = desired_output + 0.005
+            self.publisher.throttle_publication(self.apw + 0.01)  # To be modified
+            self.apw = desired_output + 0.01
             self.v = apw_to_mps(self.apw)
         elif self.apw > desired_output:
-            self.publisher.throttle_publication(self.apw - 0.005)  # To be modified
-            self.apw = desired_output - 0.005
+            self.publisher.throttle_publication(self.apw - 0.01)  # To be modified
+            self.apw = desired_output - 0.01
             self.v = apw_to_mps(self.apw)
         else:
             self.publisher.throttle_publication(self.apw)
@@ -117,11 +135,14 @@ class Car:
         event = 0
         while is_connected() and self.is_go:
             try:
+                #d = self.steer_ctrlr.steering_PMPC()
                 d = self.steer_ctrlr.steering_PID()
                 self.steer(d)
                 self.speedup(speed)
                 event = 0
-            except IndexError:  # Clipping event
+                self.log()
+
+            except IndexError or TypeError or ValueError:  # Clipping event
                 print("CLIPPING EVENT")
                 if event < self.max_event:
                     event += 1
@@ -129,8 +150,10 @@ class Car:
                     print("NO LINES COULD BE FIND", self.max_event+1, "TIMES IN A ROW...")
                     print("ENDING SEQUENCE")
                     break
-        self.publisher.general_publication(1.50, 1.45)
-        self.steer_ctrlr.line_cam.end_sequence()
+            except KeyboardInterrupt:
+                self.publisher.general_publication(1.50, 1.45)
+                break
+            self.end_sequence()
 
     def keyboard_ctrl(self):
         print("KEYBOARD CONTROL MODE")
@@ -151,16 +174,27 @@ class Car:
                 self.apw -= 0.005
                 self.publisher.throttle_publication(self.apw)
             elif k == 'a':
-                self.delta += 3
-                self.publisher.steering_publication(rad_to_pulse(np.radians(self.delta)))
+                self.delta += 2
+                self.publisher.steering_publication(rad_to_pulse(np.radians(clamp(self.delta, -self.del_max, self.del_max))))
+                print(self.delta)
             elif k == 'd':
-                self.delta -= 3
-                self.publisher.steering_publication(rad_to_pulse(np.radians(self.delta)))
+                self.delta -= 2
+                self.publisher.steering_publication(rad_to_pulse(np.radians(clamp(self.delta, -self.del_max, self.del_max))))
             elif k == 'q' or '^[':
                 self.is_go = False
                 break
             else:
                 continue
+        self.publisher.general_publication(1.50, 1.45)
+
+    def follow(self):
+        self.is_go = True
+        while is_connected() and self.is_go:
+            try:
+                t = self.dist_ctrlr.distance_PID()
+                self.throttle(t)
+            except KeyboardInterrupt or RuntimeError:
+                self.publisher.general_publication(1.50, 1.45)
         self.publisher.general_publication(1.50, 1.45)
 
     def get_steering_range(self):
@@ -176,7 +210,7 @@ class Car:
 
     def lead_init_sequence(self):
         print("ENTER THE DESIRED LEADING SPEED [m/s]:")
-        desired_speed = input()
+        desired_speed = float(input())
         print("VAALERIE WILL LEAD AT :", desired_speed, "m/s")
         time.sleep(1)
         print("STOP VAALERIE AT ANY POINT BY PRESSING 'Q' OR 'ESC'")
@@ -191,7 +225,23 @@ class Car:
         time.sleep(1)
         print("GO!")
         self.is_go = True
-        self.lead(desired_speed)
+        self.lead(mps_to_apw(desired_speed))
+
+    def log(self):
+        self.EPSI.append(self.psi)
+        self.E.append(self.e)
+        # self.CLIPPING_EVENTS = ["Clipping events"]
+        self.STEERING.append(rad_to_pulse(np.radians(self.delta)))
+        self.DELTA.append(self.delta)
+        self.THROTTLE.append(self.apw)
+
+    def end_sequence(self):
+        self.publisher.general_publication(1.50, 1.45)
+        self.steer_ctrlr.line_cam.end_sequence()
+        f = open("/home/pi/PycharProjects/Master/outputs/vaalerie_test.csv", "w")
+        writer = csv.writer(f)
+        writer.writerow(self.EPSI, self.E, self.STEERING, self.DELTA, self.THROTTLE)
+        f.close()
 
 
 # Initializing sequence code

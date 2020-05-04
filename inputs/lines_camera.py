@@ -66,31 +66,34 @@ def unwarp(view, roi_corners):  # Region of Interest
 
 
 class LinesCamera:
-    # Threshold and constants ta=hats can be adjusted to modify the result
-    dark = np.array([0, 0, 205])  # Dark white[h, s, v]
-    bright = np.array([255, 255, 255])  # Light white[h, s, v]
-    top = 76
-    bottom = -32
+    # Threshold and constants that can be adjusted to modify the result
+    DARK = np.array([0, 0, 205])  # Dark white[h, s, v]
+    BRIGHT = np.array([255, 255, 255])  # Light white[h, s, v]
+    TOP = 425
+    BOTTOM = -175
+
     img = None
     cap = None
 
     def __init__(self):
         self.cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
-        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 352)
-        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 288)
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1600)  # 1600, 1600, 1280, 352
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1000)  # 1200, 1000,  720, 288
 
     def watch(self):
         # Read image and do prelim manipulation (rotate/convert color/unwarp)
         _, img = self.cap.read()  # Get image from USB WebCam
-        cv2.imwrite("/home/pi/Desktop/pogo.png", img)
         img = cv2.flip(cv2.flip(img, 0), 1)
-        img = img[self.top:self.bottom]  # Cut to fit region of interest (up and down borders)
+        cv2.imwrite("/home/pi/Desktop/img.png", img)
+        img = img[self.TOP:self.BOTTOM]  # Cut to fit region of interest (up and down borders)
+        cv2.imwrite("/home/pi/Desktop/imgcut.png", img)
+        img = cv2.resize(img, (0, 0), fx=0.25, fy=1)
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Create an HSV image version
         unwarped = unwarp(hsv, get_vp_polygon(hsv))  # Remove image perspective
         # Line analysis by color
-        inkblot = cv2.inRange(unwarped, self.dark, self.bright)  # Setup a color mask
+        inkblot = cv2.inRange(unwarped, self.DARK, self.BRIGHT)  # Setup a color mask
         inkblot = cv2.erode(inkblot, np.ones((5, 5), np.uint8), iterations=1)  # Cleaning noise with erode function
-        inkblot = cv2.resize(inkblot, (0, 0), fx=0.25, fy=0.25)  # Pixel the sh*% out of it
+        inkblot = cv2.resize(inkblot, (0, 0), fx=0.25, fy=0.25)  # Discretize data
         lines = sort_lines(inkblot)  # Sort data to extrapolate lines
         objective = (lines[0] + lines[1]) / 2  # Mean function is the imaginary center line
         # X = np.linspace(0, inkblot.shape[1] / 27, inkblot.shape[1] / 27)  # Voir pxl_to_mx pour 27

@@ -47,5 +47,5 @@ class Guidance:
         # Initialize motor pin to 0 speed on init (1.5 ms - corrected to 4096 res.)
         self.pca.set_pwm(self.motor_pin, 0, 594)
         time.sleep(1)
-        self.pca.set_pwm(self.steering_pin, 0, 614)
+        self.pca.set_pwm(self.steering_pin, 0, 620)
 
