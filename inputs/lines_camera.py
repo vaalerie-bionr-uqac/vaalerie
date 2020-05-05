@@ -10,7 +10,6 @@ project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 from scipy import signal
 
 import cv2
-import time
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -86,7 +85,6 @@ class LinesCamera:
         img = cv2.flip(cv2.flip(img, 0), 1)
         cv2.imwrite("/home/pi/Desktop/img.png", img)
         img = img[self.TOP:self.BOTTOM]  # Cut to fit region of interest (up and down borders)
-        cv2.imwrite("/home/pi/Desktop/imgcut.png", img)
         img = cv2.resize(img, (0, 0), fx=0.25, fy=1)
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Create an HSV image version
         unwarped = unwarp(hsv, get_vp_polygon(hsv))  # Remove image perspective

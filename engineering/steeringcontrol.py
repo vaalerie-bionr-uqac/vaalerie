@@ -1,11 +1,9 @@
 """
 created on thursday September 26 2019
-last updated on wednesday November 13 2019
-
+last updated on tuesday May 5th 2020
 @author: William Begin <william.begin2@uqac.ca>
     M. Sc. (C) Sciences cliniques et biomedicales, UQAC
     Office: H2-1180
-
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
@@ -17,8 +15,6 @@ import numpy as np
 
 
 class SteeringController:
-
-    lines = None
 
     # Pseudo-MPC parameters
     N = 12  # Horizon
@@ -57,9 +53,9 @@ class SteeringController:
         i = self.i
         d = self.d
         self.se += self.car.e
-        delta = p*self.car.e + i*self.se
+        delta = p * self.car.e + i * self.se
         if self.e0:
-            delta += d*(self.car.e - self.e0)/dt
+            delta += d * (self.car.e - self.e0) / dt
         self.e0 = self.car.e
 
         if np.abs(delta) > self.car.del_max:
@@ -86,14 +82,14 @@ class SteeringController:
                 dlt = abs(dlt)
                 i = int(dlt - 1)  # Index for pre processed steering data
                 R0 = self.car.R0[i]  # Get turning radius from input
-                psi = self.car.v/R0*dt
-                L = 2*R0*np.sin(psi/2)
+                psi = self.car.v / R0 * dt
+                L = 2 * R0 * np.sin(psi/2)
                 theta = np.arctan(self.car.lr/self.car.R1[i])
-                xf = L*np.cos(theta + psi/2)
-                yf = s*L*np.sin(theta + psi/2)
+                xf = L * np.cos(theta + psi/2)
+                yf = s * L * np.sin(theta + psi/2)
 
                 e_f.append(yf - np.polyval(path, xf))
-                e_psif.append(s*psi - np.polyval(np.polyder(path), xf))
+                e_psif.append(s * psi - np.polyval(np.polyder(path), xf))
 
             J[index] = (self.We * e_f[index]) ** 2 + (self.Wpsi * e_psif[index]) ** 2
 

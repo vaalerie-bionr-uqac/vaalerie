@@ -1,10 +1,15 @@
+"""
+created on thursday September 26 2019
+last updated on tuesday May 5th 2020
+@author: William Begin <william.begin2@uqac.ca>
+    M. Sc. (C) Sciences cliniques et biomedicales, UQAC
+    Office: H2-1180
+project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
+"""
 
-
-# from inputs import athlete_cameras
 from inputs.lidar import LidarLiteV3
 
 import time
-import numpy as np
 
 
 class DistanceController:
@@ -13,14 +18,14 @@ class DistanceController:
     car = None
     subject_distance = None
     err_list = []
-    goal = 140
+    goal = 20
     integral = 0
     first_iteration = True
     then = None
 
     P = 0.009  # 0.008
     I = 0.0
-    D = 0.0003  # 0.00000005
+    D = 0.000003  # 0.00000005
 
     def __init__(self, car):
         self.lidar = LidarLiteV3()
@@ -32,7 +37,6 @@ class DistanceController:
         try:
             e = self.lidar.get_distance() - self.goal
         except RuntimeError:
-            print("RuntimeError")
             return 1.45
         self.err_list.append(e)
         if e > (1.5*self.goal) or e < (-0.75*self.goal):

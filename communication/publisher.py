@@ -18,7 +18,6 @@ class Publisher:
     def general_publication(self, steering, throttle):
         self.guidance.control_steering(steering)
         self.guidance.control_throttle(throttle)
-        self.guidance.brake_is_on(True)
 
     def steering_publication(self, steering):
         self.guidance.control_steering(steering)

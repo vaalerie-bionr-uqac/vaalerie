@@ -1,11 +1,9 @@
 """
 created on thursday September 26 2019
-last updated on wednesday November 13 2019
-
+last updated on tuesday April 30th 2020
 @author: William Begin <william.begin2@uqac.ca>
     M. Sc. (C) Sciences cliniques et biomedicales, UQAC
     Office: H2-1180
-
 project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
@@ -152,6 +150,7 @@ class Car:
                     break
             except KeyboardInterrupt:
                 self.publisher.general_publication(1.50, 1.45)
+                raise
                 break
             self.end_sequence()
 
@@ -193,8 +192,14 @@ class Car:
             try:
                 t = self.dist_ctrlr.distance_PID()
                 self.throttle(t)
-            except KeyboardInterrupt or RuntimeError:
+                if getch.getch() == 'q':
+                    self.publisher.general_publication(1.50, 1.45)
+                    break
+                else:
+                    continue
+            except KeyboardInterrupt:
                 self.publisher.general_publication(1.50, 1.45)
+                raise
         self.publisher.general_publication(1.50, 1.45)
 
     def get_steering_range(self):
