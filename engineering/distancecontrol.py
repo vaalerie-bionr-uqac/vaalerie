@@ -18,7 +18,7 @@ class DistanceController:
     car = None
     subject_distance = None
     err_list = []
-    goal = 20
+    goal = 200
     integral = 0
     first_iteration = True
     then = None

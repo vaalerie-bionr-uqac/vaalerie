@@ -1,6 +1,6 @@
 """
 created on thursday September 26 2019
-last updated on tuesday May 5th 2020
+last updated on friday June 19th 2020
 @author: William Begin <william.begin2@uqac.ca>
     M. Sc. (C) Sciences cliniques et biomedicales, UQAC
     Office: H2-1180
@@ -8,7 +8,7 @@ project: V.A.A.L.E.R.I.E. <vaalerie.uqac@gmail.com>
 """
 
 from inputs.safety import Safety
-from inputs.lines_camera import LinesCamera
+from inputs.linescamera import LinesCamera
 
 import time
 import numpy as np
@@ -25,9 +25,9 @@ class SteeringController:
     Wpsi = 5  # 5
 
     # P.I.D. controller parameters
-    p = 0.0  # To be modified
-    i = 0.0
-    d = 0.0
+    p = 20.0  # To be modified  #16
+    i = 0.5  # To be modified
+    d = 2.0  # To be modified
 
     e0 = None
     se = 0.0
@@ -47,6 +47,7 @@ class SteeringController:
 
     def steering_PID(self):  # PID control
         dt = self.set_dt()
+        self.then = time.time()
         path = self.line_cam.watch()
         self.car.set_state(path)
         p = self.p
@@ -54,18 +55,20 @@ class SteeringController:
         d = self.d
         self.se += self.car.e
         delta = p * self.car.e + i * self.se
+
         if self.e0:
             delta += d * (self.car.e - self.e0) / dt
         self.e0 = self.car.e
 
         if np.abs(delta) > self.car.del_max:
             delta = np.sign(delta)*self.car.del_max
-        s = -np.sign(delta)
-
-        return s*np.ceil(np.abs(delta))
+        s = np.sign(delta)
+        # print(self.car.e, dt)
+        return s*-np.abs(delta)
 
     def steering_PMPC(self):  # Pseudo-MPC
         dt = self.set_dt()
+        self.then = time.time()
         path = self.line_cam.watch()
         self.car.set_state(path)
         dlt_rng = self.car.get_steering_range()
@@ -95,8 +98,6 @@ class SteeringController:
 
         min_val_index = int(np.argmin(J))
         delta = dlt_rng[min_val_index]
-
-        self.then = time.time()
 
         return delta
 
