@@ -1,6 +1,6 @@
 """
 created on thursday September 26 2019
-last updated on friday June 19th 2020
+last updated on friday July 3rd 2020
 @author: William Begin <william.begin2@uqac.ca>
     M. Sc. (C) Sciences cliniques et biomedicales, UQAC
     Office: H2-1180
@@ -17,17 +17,18 @@ import numpy as np
 class SteeringController:
 
     # Pseudo-MPC parameters
-    N = 12  # Horizon
-    then = None
+    # N = 12  # Horizon
 
     # Weights
-    We = 4  # 24
-    Wpsi = 5  # 5
+    # We = 1000  # 24
+    # Wpsi = 5  # 5
 
     # P.I.D. controller parameters
-    p = 20.0  # To be modified  #16
-    i = 0.5  # To be modified
-    d = 2.0  # To be modified
+    p = 11.0  # To be modified  # 17.0
+    i = 0.1  # To be modified   # 0.3     # Up to 3 m/s
+    d = 1.9  # To be modified     # 4.0
+
+    then = None
 
     e0 = None
     se = 0.0
@@ -66,7 +67,10 @@ class SteeringController:
         # print(self.car.e, dt)
         return s*-np.abs(delta)
 
-    def steering_PMPC(self):  # Pseudo-MPC
+    def request_safety_checks(self):
+        return self.safety.state
+
+    """def steering_PMPC(self):  # Pseudo-MPC
         dt = self.set_dt()
         self.then = time.time()
         path = self.line_cam.watch()
@@ -99,7 +103,4 @@ class SteeringController:
         min_val_index = int(np.argmin(J))
         delta = dlt_rng[min_val_index]
 
-        return delta
-
-    def request_safety_checks(self):
-        return self.safety.state
+        return delta"""

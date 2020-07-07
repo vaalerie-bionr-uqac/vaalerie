@@ -1,6 +1,6 @@
 """
 created on thursday September 26 2019
-last updated on friday June 22nd 2020
+last updated on friday June 26nd 2020
 @author: William Begin <william.begin2@uqac.ca>
     M. Sc. (C) Sciences cliniques et biomedicales, UQAC
     Office: H2-1180
@@ -11,35 +11,29 @@ from scipy import signal
 
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
 
 
-def data2path(view, intensity=170, pxl_to_mx=26, pxl_to_my=54, offset=15):
-    x, y = np.where(view >= intensity)  # Discrete
-    x = (-x + view.shape[0] + offset) / pxl_to_mx  # Mirror data to counteract the top left corner
+def capture2objective(view, intensity=170, pxl_to_mx=26, pxl_to_my=54, offset=15):
+    x, y = np.where(view >= intensity)  # Discard dim pixels
+    x = (-x + view.shape[0] + offset) / pxl_to_mx  # Manipulate data to generate a 1 to 1m correspondence on x axis
     y = (-y + (view.shape[1] / 2)) / pxl_to_my  # Idem
     try:
         x, y = list(zip(*sorted(zip(x, y), key=lambda k: k[0])))  # Sort and pair x and y data DARK MAGIC...
     except ValueError:
         return [0, 0, 0]
 
-    # plt.plot(x, y, "c.")  # Show data for visual purpose, this should me removed later: To Be Removed (TBR)
-
     histogram = (np.sum(view[view.shape[0] // 2:, :], axis=0) / 1000)
+    for i in range(50, 87):  # Discard middle lane writings (RAPIDE, LENT, 1 ,2, 3, 4)
+        histogram[i] = 0
     peaks, _ = signal.find_peaks(histogram, distance=0.8*pxl_to_my)  # Find histogram peaks AKA lines
-    peaks = (-peaks + (view.shape[1])/2) / pxl_to_my
-    # print(peaks)
+    peaks = (-peaks + (view.shape[1])/2) / pxl_to_my  # Set 1 to 1m correspondence
 
-    while len(peaks) > 2:
-        # peaks = np.delete(peaks, np.where(peaks == max(peaks, key=lambda peak_pos: abs(peak_pos))))
+    while len(peaks) > 2:  # Discard unrelated peaks
         peaks = np.delete(peaks, np.where(peaks == max(peaks, key=lambda peak_pos: abs(abs(peak_pos) - 0.5))))
 
-    # print("     ", peaks)
-
-    lines_data = []
-    for peak in peaks:  # For every detected lines
+    data_points = []
+    for peak in peaks:  # Sort and filter data for left and right lines
         last_theta = 0
-        # plt.plot(offset/pxl_to_mx, peak, "go")
         lst = [(offset/pxl_to_mx, peak)]
         for i, this_y in enumerate(y):
             n = x[i]-lst[-1][0]
@@ -48,40 +42,25 @@ def data2path(view, intensity=170, pxl_to_mx=26, pxl_to_my=54, offset=15):
                 if theta < 15:
                     last_theta += theta
                     lst.append(np.array([x[i], this_y]))  # Add point to list
-                    # plt.plot(x[i], this_y, "r.")
+        data_points.append(list(zip(*lst)))  # Sort in x, y lists
 
-            """if abs(this_y - ((lst[-1][1] - peak) / (lst[-1][0]) * x[i] + peak)) < proximity:  # If v is within thresh
-                lst.append(np.array([x[i], this_y]))  # Add point to list
-                plt.plot(x[i], this_y, "g.")"""
-        lines_data.append(list(zip(*lst)))  # Sort in x, y lists
+    polynomials = []
+    for point in data_points:  # Generate 2nd degree polynomial functions to interpret visible lines
+        x, y = point
+        polynomials.append(np.polyfit(x, y, 2))
+    polynomials = np.array(polynomials)
 
-
-    """lines_data = []
-    for index, val in enumerate(peaks):  # For every peaks AKA lines
-        init = (view.shape[1] / 2 - val) / pxl_to_mx
-        lst = [(0.01, init)]  # 0.01 is a patch to avoid 0/0 case
-        for i, v in enumerate(y):
-            if abs(v - ((lst[-1][1] - init) / lst[-1][0] * x[i] + init)) < proximity:  # If v is within threshold
-                lst.append(np.array([x[i], v]))  # Add point to list
-        lines_data.append(list(zip(*lst)))  # Sort in x, y lists"""
-
-    poly_lines = []
-    for data in lines_data:
-        x, y = data
-        poly_lines.append(np.polyfit(x, y, 2))
-    poly_lines = np.array(poly_lines)
-
-    case = len(poly_lines)
-    if case == 0:
+    case = len(polynomials)  # Set objective in correlation to the number of detected lines
+    if case == 0:  # No lines
         return [0, 0, 0]  # Modify to old trajectory
-    elif case == 1:
-        poly_lines[0][2] -= np.sign(peaks[0])*0.46
-        return poly_lines[0]  # Car last error is added
-    elif case == 2:
-        return (poly_lines[0] + poly_lines[1]) / 2
+    elif case == 1:  # 1 line
+        polynomials[0][2] -= np.sign(peaks[0])*0.46
+        return polynomials[0]  # Car last error is added
+    elif case == 2:  # 2 lines (nominal)
+        return (polynomials[0] + polynomials[1]) / 2
 
 
-def get_vp_polygon(frame):  # Camera position dependant
+def get_vp_polygon(frame):  # Perspective polygon of the specified camera
     return [[0.0, 1.0 * frame.shape[0]],  # lower left
             [0.42 * frame.shape[1], 0.0],  # upper left
             [0.58 * frame.shape[1], 0.0],  # upper right
@@ -114,36 +93,23 @@ class LinesCamera:
 
     def __init__(self):
         self.webcam = cv2.VideoCapture(0, cv2.CAP_V4L2)
-        self.webcam.set(cv2.CAP_PROP_FRAME_WIDTH, 960)  # 1600, 1600, 1280, 352
-        self.webcam.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)  # 1200, 1000,  720, 288
-        plt.ion()
+        self.webcam.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
+        self.webcam.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
     def watch(self):
         # Read image and do prelim manipulation (rotate/convert color/unwarp)
         _, img = self.webcam.read()  # Get image from USB WebCam
         img = cv2.flip(cv2.flip(img, 0), 1)
-        # img = cv2.imread("/home/pi/Desktop/calibration.png")
         img = img[self.TOP:self.BOTTOM]  # Cut to fit region of interest (up and down borders)
         img = cv2.resize(img, (0, 0), fx=0.3125, fy=1)
-        # cv2.imwrite("/home/pi/Desktop/cut.png", img)
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Create an HSV image version
         unwarped = unwarp(hsv, get_vp_polygon(hsv))  # Remove image perspective
-        # Line analysis by color
         inkblot = cv2.inRange(unwarped, self.DARK, self.BRIGHT)  # Setup a color mask
-        # cv2.imwrite("/home/pi/Desktop/inkblot.png", inkblot)
         inkblot = cv2.erode(inkblot, np.ones((5, 5), np.uint8), iterations=1)  # Cleaning noise with erode function
         inkblot = cv2.resize(inkblot, (0, 0), fx=0.455, fy=0.588)  # Discretize data
         inkblot = inkblot[50:]
-        # cv2.imwrite("/home/pi/Desktop/inkblotsmall.png", inkblot)
-        objective = data2path(inkblot)  # Get objective path from data
-        # objective = (lines[0] + lines[1]) / 2  # Mean function is the imaginary center line
-        """X = np.linspace(0, 4, 40)  # Voir pxl_to_mx pour 27
-        plt.plot(X, np.poly1d(objective)(X), "g-")
-        plt.axis("equal")
-        plt.show()
-        plt.pause(0.00001)
-        plt.clf()
-        # print(objective)"""
+        objective = capture2objective(inkblot)  # Get objective path from data
+
         return objective
 
     def end_sequence(self):

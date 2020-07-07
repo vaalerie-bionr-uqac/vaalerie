@@ -18,14 +18,14 @@ class DistanceController:
     car = None
     subject_distance = None
     err_list = []
-    goal = 200
+    goal = 175
     integral = 0
     first_iteration = True
     then = None
 
-    P = 0.009  # 0.008
+    P = 0.002  # 0.008
     I = 0.0
-    D = 0.000003  # 0.00000005
+    D = 0.00  # 0.00000005
 
     def __init__(self, car):
         self.lidar = LidarLiteV3()
@@ -53,6 +53,6 @@ class DistanceController:
                   self.D * (self.err_list[-1] - self.err_list[-2]) / dt
 
         self.then = now
-        print(e, ",", max(min(apw, 0.3), 0.0) + 1.45, ",", dt)
+        # print(e, ",", max(min(apw, 0.3), 0.0) + 1.45, ",", dt)
 
         return max(min(apw, 0.3), 0.0) + 1.45

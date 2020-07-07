@@ -42,4 +42,3 @@ class Guidance:
         self.pca.set_pwm(self.MOTOR_PIN, 0, self.THROTTLE_SET_VAL)
         time.sleep(1)
         self.pca.set_pwm(self.STEERING_PIN, 0, self.STEERING_SET_VAL)
-
