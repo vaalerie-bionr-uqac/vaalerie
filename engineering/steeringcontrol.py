@@ -48,6 +48,7 @@ class SteeringController:
 
     def steering_PID(self):  # PID control
         dt = self.set_dt()
+        self.car.dt += dt
         self.then = time.time()
         path = self.line_cam.watch()
         self.car.set_state(path)

@@ -13,7 +13,6 @@ import time
 
 
 class DistanceController:
-
     lidar = None
     car = None
     subject_distance = None
@@ -36,10 +35,11 @@ class DistanceController:
         dt = None
         try:
             e = self.lidar.get_distance() - self.goal
+            self.car.de = e + 175
         except RuntimeError:
             return 1.45
         self.err_list.append(e)
-        if e > (1.5*self.goal) or e < (-0.75*self.goal):
+        if e > (1.5 * self.goal) or e < (-0.75 * self.goal):
             apw = 0.0
 
         elif self.first_iteration:
@@ -47,12 +47,13 @@ class DistanceController:
             self.first_iteration = False
         else:
             dt = now - self.then
+            self.car.dt += dt
             self.integral += e * dt
             apw = self.P * self.err_list[-1] + \
                   self.I * self.integral + \
                   self.D * (self.err_list[-1] - self.err_list[-2]) / dt
+            # print(e + 175, ",", dt)
 
         self.then = now
-        # print(e, ",", max(min(apw, 0.3), 0.0) + 1.45, ",", dt)
 
         return max(min(apw, 0.3), 0.0) + 1.45

@@ -43,6 +43,11 @@ def clamp(n, minn, maxn):
 
 class Car:
 
+    file = 0
+
+    dt = 0
+    de = 0
+
     lf = 0.13  # Distance from front axle to CM
     lr = 0.13  # Distance from rear axle to CM
     stance = 0.0635  # Distance from center line to spindle
@@ -84,6 +89,7 @@ class Car:
         self.steer_ctrlr = SteeringController(self)  # Create new steering controller instance (USES PID OR PMPC)
         self.dist_ctrlr = DistanceController(self)  # Create new distance controller instance (USES PID)
         self.publisher = Publisher()  # Create new publisher instance
+        self.file = open("/home/pi/PycharmProjects/Master/data1.txt", "w")
         print("VAALERIE IS READY")
         self.init_mode()
 
@@ -198,6 +204,9 @@ class Car:
                 t = self.dist_ctrlr.distance_PID()
                 self.throttle(t)
                 self.steer(d)
+                self.file.write(str(self.de) + "," + str(self.e) + ","
+                                + str(t) + "," + str(d) + "," + str(self.dt) + '\n')
+                self.dt = 0
             except KeyboardInterrupt:
                 self.publisher.general_publication(1.50, 1.45)
                 raise
@@ -233,21 +242,10 @@ class Car:
         self.is_go = True
         self.lead(mps_to_apw(desired_speed))
 
-    def log(self):
-        self.EPSI.append(self.psi)
-        self.E.append(self.e)
-        # self.CLIPPING_EVENTS = ["Clipping events"]
-        self.STEERING.append(rad_to_pulse(np.radians(self.delta)))
-        self.DELTA.append(self.delta)
-        self.THROTTLE.append(self.apw)
-
     def end_sequence(self):
         self.publisher.general_publication(1.50, 1.45)
         self.steer_ctrlr.line_cam.end_sequence()
-        """f = open("/home/pi/PycharProjects/Master/outputs/vaalerie_test.csv", "w")
-        writer = csv.writer(f)
-        writer.writerow(self.EPSI, self.E, self.STEERING, self.DELTA, self.THROTTLE)
-        f.close()"""
+        self.file.close()
 
 
 # Initializing sequence code
