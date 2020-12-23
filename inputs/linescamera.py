@@ -104,6 +104,7 @@ class LinesCamera:
         img = cv2.resize(img, (0, 0), fx=0.3125, fy=1)
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  # Create an HSV image version
         unwarped = unwarp(hsv, get_vp_polygon(hsv))  # Remove image perspective
+        # cv2.imwrite("/home/pi/Desktop/test.png", unwarped)
         inkblot = cv2.inRange(unwarped, self.DARK, self.BRIGHT)  # Setup a color mask
         inkblot = cv2.erode(inkblot, np.ones((5, 5), np.uint8), iterations=1)  # Cleaning noise with erode function
         inkblot = cv2.resize(inkblot, (0, 0), fx=0.455, fy=0.588)  # Discretize data

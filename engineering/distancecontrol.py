@@ -39,7 +39,7 @@ class DistanceController:
         except RuntimeError:
             return 1.45
         self.err_list.append(e)
-        if e > (1.5 * self.goal) or e < (-0.75 * self.goal):
+        if e < (-0.75 * self.goal):  # e > (1.9 * self.goal)
             apw = 0.0
 
         elif self.first_iteration:

@@ -61,35 +61,29 @@ class Car:
 
     v = 0.0  # m/s  speed
     delta = 0.0  # degrees
-    e = 0.01  # m
+    e = 0.00  # m
+    sensor_err = []
+    sensor_history = 5
 
     psi = 0.0  # Car relative yaw
 
     apw = 1.45  # Accelerator pulse width
     is_go = False
     mode = None  # 1, 2 or 3 for lead, kb ctrl and follow modes
-    max_event = 5  # Maximum consecutive image analysis clipping event
-
-    # Data logging
-    EPSI = ["e psi [rad]"]
-    E = ["e [m]"]
-    CLIPPING_EVENTS = ["Clipping events"]
-    STEERING = ["Steering [s]"]
-    DELTA = ["Delta [deg]"]
-    THROTTLE = ["Throttle [s]"]
+    max_event = 7  # Maximum consecutive image analysis clipping event
 
     first_time = True
 
     def __init__(self):
         # Generate Rear wheel rotation radius database
-        self.R1 = [(self.lr + self.lf + (self.stance/np.tan(np.pi/2 - a))) * np.tan(np.pi/2 - a) for a in
+        """self.R1 = [(self.lr + self.lf + (self.stance/np.tan(np.pi/2 - a))) * np.tan(np.pi/2 - a) for a in
                    np.linspace(np.radians(self.del_inc), np.radians(self.del_max), int(self.del_max / self.del_inc))]
-        self.R0 = [np.sqrt(r ** 2 + self.lr ** 2) for r in self.R1]  # Generate Front wheel rotation radius database
+        self.R0 = [np.sqrt(r ** 2 + self.lr ** 2) for r in self.R1]  # Generate Front wheel rotation radius database"""
 
         self.steer_ctrlr = SteeringController(self)  # Create new steering controller instance (USES PID OR PMPC)
         self.dist_ctrlr = DistanceController(self)  # Create new distance controller instance (USES PID)
         self.publisher = Publisher()  # Create new publisher instance
-        self.file = open("/home/pi/PycharmProjects/Master/data1.txt", "w")
+        self.file = open("/home/pi/PycharmProjects/Master/filter_5_P3.8_I0.12_D5.5_v2.txt", "w")
         print("VAALERIE IS READY")
         self.init_mode()
 
@@ -133,13 +127,20 @@ class Car:
             self.v = apw_to_mps(self.apw)
 
     def set_state(self, path):
-        self.e = -np.polyval(path, 0)  # Prevision
+        self.sensor_err.append(-np.polyval(path, 0))
+
+        if len(self.sensor_err) >= self.sensor_history:  # Moving average of length sensor_history
+            self.e = np.sum(self.sensor_err[-self.sensor_history:]) / self.sensor_history
+            del self.sensor_err[0]
+        else:
+            self.e = np.sum(self.sensor_err) / len(self.sensor_err)
+
         self.psi = -np.arctan(np.polyval(np.polyder(path), 0))
 
     def lead(self, speed):
         print("LEADING...")
         event = 0
-        loop = 0
+
         while is_connected() and self.is_go:
             try:
                 # d = self.steer_ctrlr.steering_PMPC()
@@ -147,7 +148,9 @@ class Car:
                 self.steer(d)
                 self.speedup(speed)
                 event = 0
-                #self.log()
+                self.file.write(str(self.e) + "," + str(d) + "," + str(self.dt) + '\n')
+                self.dt = 0
+                # self.log()
 
             except IndexError or TypeError or ValueError:  # Clipping event
                 print("CLIPPING EVENT, {}")
@@ -210,6 +213,7 @@ class Car:
             except KeyboardInterrupt:
                 self.publisher.general_publication(1.50, 1.45)
                 raise
+
         self.publisher.general_publication(1.50, 1.45)
 
     def get_steering_range(self):
@@ -251,4 +255,3 @@ class Car:
 # Initializing sequence code
 if __name__ == '__main__':
     car = Car()
-    # car.keyboard_ctrl()

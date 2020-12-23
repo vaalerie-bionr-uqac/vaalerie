@@ -23,10 +23,10 @@ class SteeringController:
     # We = 1000  # 24
     # Wpsi = 5  # 5
 
-    # P.I.D. controller parameters
-    p = 11.0  # To be modified  # 17.0
-    i = 0.1  # To be modified   # 0.3     # Up to 3 m/s
-    d = 1.9  # To be modified     # 4.0
+    # P.I.D. controller parameters  -> Actual values of 21, 0.005, 1.2 are stable a 1 m/s
+    p = 3.8  # To be modified  # 17.0  21
+    i = 0.12  # To be modified   # 0.3    0.005 # Up to 3 m/s
+    d = 5.5  # To be modified     # 4.0  1.2
 
     then = None
 
